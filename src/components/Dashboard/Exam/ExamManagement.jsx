@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { FaSearch } from "react-icons/fa";
+
 
 const ExamManagement = () => {
     const [data, setData] = useState([]);
-    const [showForm, setShowForm] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [courseName, setCourseName] = useState("");
     const [courseCode, setCourseCode] = useState("");
     const [midtermMarks, setMidtermMarks] = useState("");
     const [finalMarks, setFinalMarks] = useState("");
     const [internalMarks, setInternalMarks] = useState("");
     const [editId, setEditId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const navigate = useNavigate();
 
@@ -45,12 +47,8 @@ const ExamManagement = () => {
                 totalMarks,
             };
             setData((prevData) => [...prevData, newExam]);
-            setCourseName("");
-            setCourseCode("");
-            setMidtermMarks("");
-            setFinalMarks("");
-            setInternalMarks("");
-            setShowForm(false);
+            resetForm();
+            setShowModal(false);
         } else {
             alert("Please fill in all fields.");
         }
@@ -65,7 +63,7 @@ const ExamManagement = () => {
             setFinalMarks(examToEdit.finalMarks);
             setInternalMarks(examToEdit.internalMarks);
             setEditId(id);
-            setShowEditModal(true);
+            setShowModal(true);
         }
     };
 
@@ -78,13 +76,8 @@ const ExamManagement = () => {
                     : exam
             );
             setData(updatedData);
-            setCourseName("");
-            setCourseCode("");
-            setMidtermMarks("");
-            setFinalMarks("");
-            setInternalMarks("");
-            setEditId(null);
-            setShowEditModal(false);
+            resetForm();
+            setShowModal(false);
         } else {
             alert("Please fill in all fields.");
         }
@@ -101,110 +94,72 @@ const ExamManagement = () => {
         navigate(`/dashboard/exam-questions/${id}`);
     };
 
+    const resetForm = () => {
+        setCourseName("");
+        setCourseCode("");
+        setMidtermMarks("");
+        setFinalMarks("");
+        setInternalMarks("");
+        setEditId(null);
+    };
+
+    // Search by both course name and course code
+    const filteredData = data.filter(
+        (exam) =>
+            exam.courseName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            exam.courseCode.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
-        <div className="min-h-screen p-6">
+        <div className="min-h-screen">
             {/* Header */}
-            <header className="bg-blue-500 text-white py-4 px-6 rounded-lg shadow-lg flex justify-between items-center">
-                <h1 className="text-xl font-bold">Exam Management</h1>
-            </header>
-
-            {/* Create Exam Button */}
-            <div className="mt-6 text-right">
-                <button
-                    onClick={() => setShowForm((prev) => !prev)}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
-                >
-                    {showForm ? "Close Form" : "Create Exam"}
-                </button>
-            </div>
-
-            {/* Form */}
-            {showForm && (
-                <div className="bg-white p-6 mt-6 border shadow-md rounded-md border-gray-200 grid grid-cols-1  md:grid-cols-5 gap-4">
-                    <div className="flex flex-col">
-                        <label className="text-blue-700">Course Name</label>
+            <header className="bg-blue-600 text-white py-4 px-6 shadow-md flex flex-col md:flex-row justify-between items-center">
+                <h1 className="text-2xl font-bold mb-4 md:mb-0">Exam Management</h1>
+                <div className="flex items-center gap-4 w-full md:w-auto">
+                    <div className="relative w-full md:w-64">
                         <input
                             type="text"
-                            value={courseName}
-                            onChange={(e) => setCourseName(e.target.value)}
-                            className="p-2 border rounded-md"
-                            placeholder="Enter Course Name"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="p-2 pl-10 border border-gray-300 w-full text-black focus:outline-none focus:border-blue-500"
+                            placeholder="Search by course name or code"
                         />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-blue-700">Course Code</label>
-                        <input
-                            type="text"
-                            value={courseCode}
-                            onChange={(e) => setCourseCode(e.target.value)}
-                            className="p-2 border rounded-md"
-                            placeholder="Enter Course Code"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-blue-700">Midterm Marks</label>
-                        <input
-                            type="number"
-                            value={midtermMarks}
-                            onChange={(e) => setMidtermMarks(e.target.value)}
-                            className="p-2 border rounded-md"
-                            placeholder="Enter Midterm Marks"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-blue-700">Final Marks</label>
-                        <input
-                            type="number"
-                            value={finalMarks}
-                            onChange={(e) => setFinalMarks(e.target.value)}
-                            className="p-2 border rounded-md"
-                            placeholder="Enter Final Marks"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-blue-700">Internal Marks</label>
-                        <input
-                            type="number"
-                            value={internalMarks}
-                            onChange={(e) => setInternalMarks(e.target.value)}
-                            className="p-2 border rounded-md"
-                            placeholder="Enter Internal Marks"
-                        />
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
                     </div>
                     <button
-                        onClick={handleAddExam}
-                        className="md:col-span-4 w-fit bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+                        onClick={() => setShowModal(true)}
+                        className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-500"
                     >
-                        Add Exam
+                        Create Exam
                     </button>
                 </div>
-            )}
+            </header>
 
             {/* Exam Table */}
-            <div className="mt-6 overflow-x-auto bg-white">
-                <table className="w-full border-collapse border border-gray-200 rounded-lg shadow-md text-gray-700 text-sm">
+            <div className="mt-6 overflow-x-auto bg-white shadow-md">
+                <table className="w-full border-blue-300 border ">
                     <thead>
-                        <tr className="bg-blue-100 text-blue-700">
-                            <th className="p-2 border">Course Name</th>
-                            <th className="p-2 border">Course Code</th>
-                            <th className="p-2 border">Midterm Marks</th>
-                            <th className="p-2 border">Final Marks</th>
-                            <th className="p-2 border">Internal Marks</th>
-                            <th className="p-2 border">Total Marks</th>
-                            <th className="p-2 border">Actions</th>
+                        <tr className=" bg-blue-100 text-blue-700">
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2 text-nowrap">Course Code</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2 text-nowrap">Midterm Marks</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2 text-nowrap">Final Marks</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2 text-nowrap">Internal Marks</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2 text-nowrap">Total Marks</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.length > 0 ? (
-                            data.map((item) => (
-                                <tr key={item.id} className="hover:bg-blue-50 text-center">
-                                    <td className="p-2 border">{item.courseName}</td>
-                                    <td className="p-2 border">{item.courseCode}</td>
-                                    <td className="p-2 border">{item.midtermMarks}</td>
-                                    <td className="p-2 border">{item.finalMarks}</td>
-                                    <td className="p-2 border">{item.internalMarks}</td>
-                                    <td className="p-2 border">{item.totalMarks}</td>
-                                    <td className="px-4 py-2 flex gap-3 items-center border-b justify-center">
+                        {filteredData.length > 0 ? (
+                            filteredData.map((item) => (
+                                <tr key={item.id} className="hover:bg-blue-50 border border-blue-300 transition-all">
+                                    <td className="px-6 border-r-2 border-blue-300 text-nowrap">{item.courseName}</td>
+                                    <td className="px-6 border-r-2 border-blue-300">{item.courseCode}</td>
+                                    <td className="px-6 border-r-2 border-blue-300">{item.midtermMarks}</td>
+                                    <td className="px-6 border-r-2 border-blue-300">{item.finalMarks}</td>
+                                    <td className="px-6 border-r-2 border-blue-300">{item.internalMarks}</td>
+                                    <td className="px-6 border-r-2 border-blue-300">{item.totalMarks}</td>
+                                    <td className="py-3 px-6 flex justify-center gap-6 border-blue-300">
                                         <AiFillEye
                                             className="text-green-500 size-5 cursor-pointer hover:text-green-700"
                                             onClick={() => handleView(item.id)}
@@ -231,66 +186,82 @@ const ExamManagement = () => {
                 </table>
             </div>
 
-            {/* Edit Modal */}
-            {showEditModal && (
-                <div className="fixed inset-0 bg-gray-950  bg-opacity-40 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded-lg w-[40%] shadow-md">
-                        <h2 className="text-lg font-bold mb-4">Edit Exam</h2>
-                        <div className="flex flex-col mb-4">
-                            <label className="text-gray-700">Course Name</label>
-                            <input
-                                type="text"
-                                value={courseName}
-                                onChange={(e) => setCourseName(e.target.value)}
-                                className="p-2 border rounded-md"
-                            />
+            {/* Modal for Create/Edit Exam */}
+            {showModal && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white w-full max-w-lg shadow-md">
+                        <div className="p-6 border-b border-gray-300">
+                            <h2 className="text-xl font-bold justify-center flex items-center text-blue-700">
+                                {editId ? "Edit Exam" : "Create Exam"}
+                            </h2>
                         </div>
-                        <div className="flex flex-col mb-4">
-                            <label className="text-gray-700">Course Code</label>
-                            <input
-                                type="text"
-                                value={courseCode}
-                                onChange={(e) => setCourseCode(e.target.value)}
-                                className="p-2 border rounded-md"
-                            />
+                        <div className="p-6">
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-col">
+                                    {/* <label className="text-gray-700">Course Name</label> */}
+                                    <input
+                                        type="text"
+                                        value={courseName}
+                                        onChange={(e) => setCourseName(e.target.value)}
+                                        className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
+                                        placeholder="Enter Course Name"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    {/* <label className="text-gray-700">Course Code</label> */}
+                                    <input
+                                        type="text"
+                                        value={courseCode}
+                                        onChange={(e) => setCourseCode(e.target.value)}
+                                        className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
+                                        placeholder="Enter Course Code"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    {/* <label className="text-gray-700">Midterm Marks</label> */}
+                                    <input
+                                        type="number"
+                                        value={midtermMarks}
+                                        onChange={(e) => setMidtermMarks(e.target.value)}
+                                        className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
+                                        placeholder="Enter Midterm Marks"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    {/* <label className="text-gray-700">Final Marks</label> */}
+                                    <input
+                                        type="number"
+                                        value={finalMarks}
+                                        onChange={(e) => setFinalMarks(e.target.value)}
+                                        className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
+                                        placeholder="Enter Final Marks"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    {/* <label className="text-gray-700">Internal Marks</label> */}
+                                    <input
+                                        type="number"
+                                        value={internalMarks}
+                                        onChange={(e) => setInternalMarks(e.target.value)}
+                                        className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
+                                        placeholder="Enter Internal Marks"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-col mb-4">
-                            <label className="text-gray-700">Midterm Marks</label>
-                            <input
-                                type="number"
-                                value={midtermMarks}
-                                onChange={(e) => setMidtermMarks(e.target.value)}
-                                className="p-2 border rounded-md"
-                            />
-                        </div>
-                        <div className="flex flex-col mb-4">
-                            <label className="text-gray-700">Final Marks</label>
-                            <input
-                                type="number"
-                                value={finalMarks}
-                                onChange={(e) => setFinalMarks(e.target.value)}
-                                className="p-2 border rounded-md"
-                            />
-                        </div>
-                        <div className="flex flex-col mb-4">
-                            <label className="text-gray-700">Internal Marks</label>
-                            <input
-                                type="number"
-                                value={internalMarks}
-                                onChange={(e) => setInternalMarks(e.target.value)}
-                                className="p-2 border rounded-md"
-                            />
-                        </div>
-                        <div className="flex gap-4 justify-end">
+                        <div className="p-6 border-t border-gray-300 flex justify-end gap-4">
                             <button
-                                onClick={handleUpdateExam}
-                                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                                onClick={editId ? handleUpdateExam : handleAddExam}
+                                className="bg-blue-600 text-white px-6 py-2 hover:bg-blue-700 transition"
                             >
-                                Update
+                                {editId ? "Update" : "Create"}
                             </button>
                             <button
-                                onClick={() => setShowEditModal(false)}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                                onClick={() => {
+                                    setShowModal(false);
+                                    resetForm();
+                                }}
+                                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
                             >
                                 Cancel
                             </button>

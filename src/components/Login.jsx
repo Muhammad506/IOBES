@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <main className="flex flex-col lg:flex-row font-inter h-screen bg-gradient-to-br from-[#79A3FF] to-[#A8D8F0]">
             {/* Back Button */}
             <Link to="/">
-                <div className="absolute top-6 left-6 flex z-50 items-center gap-2 text-[#003C60] font-bold text-lg bg-white px-4 py-2 rounded-full shadow-md hover:bg-[#003C60] hover:text-white transition-all duration-500 ease-in-out cursor-pointer">
+                <div className="absolute top-6 left-6 flex z-50 items-center gap-2 text-[#003C60] font-bold text-lg bg-white px-4 py-2 rounded-full shadow-md hover:bg-[#003C60] hover:text-white transition-all duration-700 ease-in-out cursor-pointer">
                     <FaArrowLeft />
                     <span>Back</span>
                 </div>
@@ -28,23 +31,20 @@ const Login = () => {
                         {/* Logo Placeholder */}
                         <span className="flex justify-center items-center text-5xl font-extrabold text-[#003C60] mb-6">LOGO</span>
                         <p className="text-gray-600 text-lg mb-6">
-                            Log in to your Solar Intelli account to access your dashboard.
+                            Log in to your AI-Powered Outcome Based Examination System account to access your dashboard.
                         </p>
                     </div>
                     <form className="mt-4 space-y-6">
                         <div className="mb-6">
                             <label className="block text-[#003C60] font-semibold mb-2">
-                                Email Address
+                                Email 
                             </label>
                             <div className="relative">
                                 <input
                                     type="email"
                                     placeholder="Enter your email"
-                                    className="w-full px-4 py-3 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#3F7AFF]"
+                                    className="w-full px-4 py-3 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none "
                                 />
-                                <span className="absolute left-3 top-3 text-gray-400">
-                                    <i className="fas fa-envelope"></i>
-                                </span>
                             </div>
                         </div>
                         <div className="mb-4">
@@ -53,12 +53,16 @@ const Login = () => {
                             </label>
                             <div className="relative">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="Enter your password"
-                                    className="w-full px-4 py-3 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#3F7AFF]"
+                                    className="w-full px-4 py-3 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none "
                                 />
-                                <span className="absolute left-3 top-3 text-gray-400">
-                                    <i className="fas fa-lock"></i>
+                                {/* Eye Icon */}
+                                <span
+                                    className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500 hover:text-[#003C60]"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
                                 </span>
                             </div>
                         </div>
@@ -72,7 +76,7 @@ const Login = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-[#3F7AFF] text-white font-bold py-3 rounded-full shadow-xl hover:scale-105 transition-all ease-in-out duration-700"
+                            className="w-full bg-[#3F7AFF] text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-[#2F5ECC] transition-all duration-300 transform "
                         >
                             Login
                         </button>

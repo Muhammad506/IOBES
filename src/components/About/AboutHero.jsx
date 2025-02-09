@@ -1,6 +1,6 @@
 const AboutHero = () => (
   <header
-    className="relative bg-cover bg-center max-h-screen 2xl:h-[400px] font-inter pt-24 lg:pt-32 xl:pt-36 2xl:mt-40 flex items-start justify-start py-10 p-6"
+    className="relative bg-cover bg-center max-h-screen 2xl:h-[400px] font-inter pt-24 lg:pt-32 xl:pt-36  flex items-start justify-start py-10 p-6"
     style={{ backgroundImage: "url('/AboutHero.jpg')" }}
   >
     {/* Overlay gradient */}

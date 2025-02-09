@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";  
+import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 
 
 const CoarseManagement = () => {
@@ -111,7 +111,7 @@ const CoarseManagement = () => {
     };
 
     return (
-        <div className="min-h-screen p-4">
+        <div className="min-h-screen ">
             {/* Header */}
             <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
                 <h1 className="text-2xl font-semibold">Course Management</h1>
@@ -140,12 +140,12 @@ const CoarseManagement = () => {
                 <table className="min-w-full bg-white text-center">
                     <thead>
                         <tr className="bg-blue-100 text-blue-700">
-                            <th className="py-4 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
-                            <th className="py-4 px-6 font-medium border border-blue-300 border-b-2 ">Course Code</th>
-                            <th className="py-4 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Teacher</th>
-                            <th className="py-4 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Credit Hours</th>
-                            <th className="py-4 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Semester</th>
-                            <th className="py-4 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 ">Course Code</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Teacher</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Credit Hours</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Semester</th>
+                            <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -232,7 +232,7 @@ const CoarseManagement = () => {
                         <div className="mt-6 flex justify-end gap-4">
                             <button
                                 onClick={closePopup}
-                                className="py-2 px-6 text-blue-600 hover:text-white border-blue-600 border hover:bg-blue-600 duration-500 rounded-sm"
+                                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
                             >
                                 Cancel
                             </button>

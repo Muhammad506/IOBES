@@ -1,190 +1,178 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { AiFillEye, AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const QuizManagement = () => {
-  const [data, setData] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [courseName, setCourseName] = useState("");
-  const [courseCode, setCourseCode] = useState(""); // New state for course code
-  const [quizNo, setQuizNo] = useState("");
-  const [totalMarks, setTotalMarks] = useState("");
+  const [quizzes, setQuizzes] = useState([]);
+  const [filteredQuizzes, setFilteredQuizzes] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [quizForm, setQuizForm] = useState({
+    courseName: "",
+    courseCode: "",
+    creditHours: "",
+    quizNo: "",
+    totalMarks: "",
+  });
+  const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize navigate for routing
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("examData")) || [];
-    setData(storedData);
+    const savedQuizzes = JSON.parse(localStorage.getItem("quizzes")) || [];
+    setQuizzes(savedQuizzes);
+    setFilteredQuizzes(savedQuizzes);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("examData", JSON.stringify(data));
-  }, [data]);
+    localStorage.setItem("quizzes", JSON.stringify(quizzes));
+    filterQuizzes(searchQuery);
+  }, [quizzes]);
 
-  const handleAddQuiz = () => {
-    if (courseName && courseCode && quizNo && totalMarks) {
-      const newQuiz = { id: Date.now(), courseName, courseCode, quizNo, totalMarks }; // Include courseCode
-      setData([...data, newQuiz]);
-      setCourseName("");
-      setCourseCode(""); // Clear the courseCode field
-      setQuizNo("");
-      setTotalMarks("");
-      setShowForm(false);
+  const filterQuizzes = (query) => {
+    const filtered = quizzes.filter((quiz) =>
+      [quiz.courseName, quiz.courseCode, quiz.quizNo]
+        .join(" ")
+        .toLowerCase()
+        .includes(query.toLowerCase())
+    );
+    setFilteredQuizzes(filtered);
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    filterQuizzes(query);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setQuizForm({ ...quizForm, [name]: value });
+  };
+
+  const openPopup = (isEdit = false, quiz = null) => {
+    if (isEdit && quiz) {
+      setIsEditing(true);
+      setEditId(quiz.id);
+      setQuizForm(quiz);
     } else {
-      alert("Please fill in all fields.");
-    }
-  };
-
-  const handleEdit = (id) => {
-    const quizToEdit = data.find((quiz) => quiz.id === id);
-    if (quizToEdit) {
-      setCourseName(quizToEdit.courseName);
-      setCourseCode(quizToEdit.courseCode); // Set courseCode in the edit modal
-      setQuizNo(quizToEdit.quizNo);
-      setTotalMarks(quizToEdit.totalMarks);
-      setEditId(id);
-      setShowEditModal(true);
-    }
-  };
-
-  const handleUpdateQuiz = () => {
-    if (courseName && courseCode && quizNo && totalMarks) {
-      const updatedData = data.map((quiz) =>
-        quiz.id === editId ? { ...quiz, courseName, courseCode, quizNo, totalMarks } : quiz // Include courseCode in the update
-      );
-      setData(updatedData);
-      setCourseName("");
-      setCourseCode(""); // Clear courseCode after update
-      setQuizNo("");
-      setTotalMarks("");
+      setIsEditing(false);
       setEditId(null);
-      setShowEditModal(false);
+      setQuizForm({
+        courseName: "",
+        courseCode: "",
+        creditHours: "",
+        quizNo: "",
+        totalMarks: "",
+      });
+    }
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setQuizForm({
+      courseName: "",
+      courseCode: "",
+      creditHours: "",
+      quizNo: "",
+      totalMarks: "",
+    });
+  };
+
+  const handleSaveQuiz = () => {
+    if (!quizForm.courseName || !quizForm.courseCode || !quizForm.creditHours || !quizForm.quizNo || !quizForm.totalMarks) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    if (isEditing) {
+      setQuizzes(
+        quizzes.map((quiz) =>
+          quiz.id === editId ? { ...quiz, ...quizForm } : quiz
+        )
+      );
     } else {
-      alert("Please fill in all fields.");
+      const newQuiz = { ...quizForm, id: Date.now() };
+      setQuizzes([...quizzes, newQuiz]);
     }
+
+    closePopup();
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this quiz?")) {
-      const updatedData = data.filter((quiz) => quiz.id !== id);
-      setData(updatedData);
-    }
-  };
-
-  const handleView = (id) => {
-    navigate(`/dashboard/quiz-questions/${id}`);
+  const handleDeleteQuiz = (id) => {
+    const updatedQuizzes = quizzes.filter((quiz) => quiz.id !== id);
+    setQuizzes(updatedQuizzes);
   };
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen ">
       {/* Header */}
-      <header className="bg-blue-500 text-white py-4 px-6 rounded-lg shadow-lg flex justify-between items-center">
-        <h1 className="text-xl font-bold">Quiz Management</h1>
-      </header>
-
-      {/* Create Quiz Button */}
-      <div className="mt-6 text-right">
-        <button
-          onClick={() => setShowForm((prev) => !prev)}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
-        >
-          {showForm ? "Close Form" : "Create Quiz"}
-        </button>
-      </div>
-
-      {/* Form */}
-      {showForm && (
-        <div className="bg-white p-6 mt-6 border shadow-md rounded-md border-gray-200 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="flex flex-col">
-            <label className="text-blue-700">Course Name</label>
+      <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">Quiz Management</h1>
+        <div className="flex items-center space-x-4">
+          <div className="relative">
             <input
               type="text"
-              value={courseName}
-              onChange={(e) => setCourseName(e.target.value)}
-              className="p-2 border rounded-md"
-              placeholder="Enter Course Name"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search quizzes..."
+              className="py-2 px-3 border border-gray-300 rounded-sm text-black shadow-md focus:outline-none pl-10"
             />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-blue-700">Course Code</label>
-            <input
-              type="text"
-              value={courseCode}
-              onChange={(e) => setCourseCode(e.target.value)} // Add courseCode input
-              className="p-2 border rounded-md"
-              placeholder="Enter Course Code"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-blue-700">Quiz No</label>
-            <input
-              type="text"
-              value={quizNo}
-              onChange={(e) => setQuizNo(e.target.value)}
-              className="p-2 border rounded-md"
-              placeholder="Enter Quiz No"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-blue-700">Total Marks</label>
-            <input
-              type="text"
-              value={totalMarks}
-              onChange={(e) => setTotalMarks(e.target.value)}
-              className="p-2 border rounded-md"
-              placeholder="Enter Total Marks"
-            />
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
           </div>
           <button
-            onClick={handleAddQuiz}
-            className="md:col-span-4 w-fit bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+            onClick={() => openPopup()}
+            className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-500"
           >
-            Add Quiz
+            Create Quiz
           </button>
         </div>
-      )}
+      </header>
 
       {/* Quiz Table */}
-      <div className="mt-6 overflow-x-auto bg-white">
-        <table className="w-full border-collapse border border-gray-200 rounded-lg shadow-md text-gray-700 text-sm">
+      <div className="overflow-x-auto shadow-lg rounded-sm border border-blue-300 mt-6">
+        <table className="min-w-full bg-white text-center">
           <thead>
             <tr className="bg-blue-100 text-blue-700">
-              <th className="p-2 border">Course Name</th>
-              <th className="p-2 border">Course Code</th> {/* New column for course code */}
-              <th className="p-2 border">Quiz No</th>
-              <th className="p-2 border">Total Marks</th>
-              <th className="p-2 border">Actions</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Code</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Credit Hours</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Quiz No</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Total Marks</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? (
-              data.map((item) => (
-                <tr key={item.id} className="hover:bg-blue-50 text-center">
-                  <td className="p-2 border">{item.courseName}</td>
-                  <td className="p-2 border">{item.courseCode}</td> {/* Display course code */}
-                  <td className="p-2 border">{item.quizNo}</td>
-                  <td className="p-2 border">{item.totalMarks}</td>
-                  <td className="px-4 py-2 flex gap-3 items-center border-b justify-center">
+            {filteredQuizzes.length > 0 ? (
+              filteredQuizzes.map((quiz) => (
+                <tr key={quiz.id} className="hover:bg-blue-50 border border-blue-300 transition-all">
+                  <td className="px-6 border-r-2 border-blue-300">{quiz.courseName}</td>
+                  <td className="px-6 border-x-2 border-blue-300">{quiz.courseCode}</td>
+                  <td className="px-6 border-x-2 border-blue-300">{quiz.creditHours}</td>
+                  <td className="px-6 border-x-2 border-blue-300">{quiz.quizNo}</td>
+                  <td className="px-6 border-x-2 border-blue-300">{quiz.totalMarks}</td>
+                  <td className="py-3 px-6 flex justify-center gap-6 border-blue-300">
                     <AiFillEye
-                      className="text-blue-500 size-5 cursor-pointer hover:text-blue-700"
-                      onClick={() => handleView(item.id)}
+                      onClick={() => navigate(`quiz-questions/${quiz.courseName}/${quiz.quizNo}`)}
+                      className="text-green-600 cursor-pointer hover:text-green-700 transform transition duration-150 size-4"
                     />
                     <AiFillEdit
-                      className="text-green-500 size-5 cursor-pointer hover:text-green-700"
-                      onClick={() => handleEdit(item.id)}
+                      onClick={() => openPopup(true, quiz)}
+                      className="text-blue-600 cursor-pointer hover:text-blue-700 transform transition duration-150 size-4"
                     />
                     <AiFillDelete
-                      className="text-red-500 size-5 cursor-pointer hover:text-red-700"
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDeleteQuiz(quiz.id)}
+                      className="text-red-600 cursor-pointer hover:text-red-700 transform transition duration-150 size-4"
                     />
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center p-4">
+                <td colSpan="6" className="py-8 px-6 text-gray-500">
                   No quizzes available.
                 </td>
               </tr>
@@ -193,59 +181,34 @@ const QuizManagement = () => {
         </table>
       </div>
 
-      {/* Edit Modal */}
-      {showEditModal && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-bold mb-4">Edit Quiz</h2>
-            <div className="flex flex-col mb-4">
-              <label className="text-gray-700">Course Name</label>
-              <input
-                type="text"
-                value={courseName}
-                onChange={(e) => setCourseName(e.target.value)}
-                className="p-2 border rounded-md"
-              />
+      {/* Popup Modal */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-sm shadow-lg w-full max-w-xl">
+            <h2 className="text-2xl font-semibold mb-6 text-center text-blue-700">
+              {isEditing ? "Edit Quiz" : "Create Quiz"}
+            </h2>
+            <div className="grid gap-4">
+              {["courseName", "courseCode", "creditHours", "quizNo", "totalMarks"].map((field, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  name={field}
+                  value={quizForm[field]}
+                  onChange={handleInputChange}
+                  placeholder={field.replace(/([A-Z])/g, " $1").trim()}
+                  className="p-4 border border-blue-600 rounded-sm focus:outline-none shadow-sm"
+                />
+              ))}
             </div>
-            <div className="flex flex-col mb-4">
-              <label className="text-gray-700">Course Code</label> {/* Add courseCode input */}
-              <input
-                type="text"
-                value={courseCode}
-                onChange={(e) => setCourseCode(e.target.value)}
-                className="p-2 border rounded-md"
-              />
-            </div>
-            <div className="flex flex-col mb-4">
-              <label className="text-gray-700">Quiz No</label>
-              <input
-                type="text"
-                value={quizNo}
-                onChange={(e) => setQuizNo(e.target.value)}
-                className="p-2 border rounded-md"
-              />
-            </div>
-            <div className="flex flex-col mb-4">
-              <label className="text-gray-700">Total Marks</label>
-              <input
-                type="text"
-                value={totalMarks}
-                onChange={(e) => setTotalMarks(e.target.value)}
-                className="p-2 border rounded-md"
-              />
-            </div>
-            <div className="flex gap-4">
-              <button
-                onClick={handleUpdateQuiz}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-              >
-                Update
-              </button>
-              <button
-                onClick={() => setShowEditModal(false)}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+            <div className="mt-6 flex justify-end gap-4">
+              <button onClick={closePopup}
+                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
               >
                 Cancel
+              </button>
+              <button onClick={handleSaveQuiz} className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-sm shadow-md">
+                {isEditing ? "Update Quiz" : "Save Quiz"}
               </button>
             </div>
           </div>

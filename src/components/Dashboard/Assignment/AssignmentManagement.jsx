@@ -106,7 +106,7 @@ const AssignmentManagement = () => {
     };
 
     return (
-        <div className="min-h-screen p-4">
+        <div className="min-h-screen ">
             {/* Header */}
             <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
                 <h1 className="text-2xl font-semibold">Assignment Management</h1>
@@ -217,7 +217,7 @@ const AssignmentManagement = () => {
                         <div className="mt-6 flex justify-end gap-4">
                             <button
                                 onClick={closePopup}
-                                className="py-2 px-6 text-blue-600 hover:text-white border-blue-600 border hover:bg-blue-600 duration-500 rounded-sm"
+                                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
                             >
                                 Cancel
                             </button>

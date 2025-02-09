@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     return (
-        <main className="flex flex-col lg:flex-row font-inter  bg-gradient-to-br from-[#79A3FF] to-[#A8D8F0]">
+        <main className="flex flex-col lg:flex-row font-inter bg-gradient-to-br from-[#79A3FF] to-[#A8D8F0]">
             {/* Back Button */}
             <Link to="/">
                 <div className="absolute top-6 left-6 flex z-50 items-center gap-2 text-[#003C60] font-bold text-lg bg-white px-4 py-2 rounded-full shadow-md hover:bg-[#003C60] hover:text-white transition-all duration-500 ease-in-out cursor-pointer">
@@ -11,6 +15,7 @@ const Register = () => {
                     <span>Back</span>
                 </div>
             </Link>
+
             {/* Left Section - Image */}
             <div className="w-full lg:w-[60%] bg-cover bg-center max-h-screen relative rounded-l-3xl">
                 <img
@@ -24,10 +29,9 @@ const Register = () => {
             <div className="w-full lg:w-[40%] flex flex-col justify-center items-center px-8">
                 <div className="max-w-md w-full bg-white shadow-xl border-4 border-[#003C60] rounded-3xl p-8 animate-slideInLeft">
                     <div className="text-center mb-4">
-                        {/* Logo Placeholder */}
                         <span className="flex justify-center items-center text-4xl font-extrabold text-[#003C60] mb-4">LOGO</span>
-                        <p className="text-gray-600 text-sm mb-4">
-                            Create your Solar Intelli account to get started.
+                        <p className="text-gray-600 text-lg mb-6">
+                            Create your AI-Powered Outcome Based Examination System account to get started.
                         </p>
                     </div>
                     <form className="space-y-4">
@@ -35,31 +39,21 @@ const Register = () => {
                             <label className="block text-[#003C60] font-semibold mb-1">
                                 Full Name
                             </label>
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="Enter your full name"
-                                    className="w-full px-3 py-2 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none"
-                                />
-                                <span className="absolute left-3 top-2.5 text-gray-400">
-                                    <i className="fas fa-user"></i>
-                                </span>
-                            </div>
+                            <input
+                                type="text"
+                                placeholder="Enter your full name"
+                                className="w-full px-3 py-2 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none"
+                            />
                         </div>
                         <div>
                             <label className="block text-[#003C60] font-semibold mb-1">
-                                Email Address
+                                Email
                             </label>
-                            <div className="relative">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="w-full px-3 py-2 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none"
-                                />
-                                <span className="absolute left-3 top-2.5 text-gray-400">
-                                    <i className="fas fa-envelope"></i>
-                                </span>
-                            </div>
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                className="w-full px-3 py-2 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none"
+                            />
                         </div>
                         <div>
                             <label className="block text-[#003C60] font-semibold mb-1">
@@ -67,13 +61,17 @@ const Register = () => {
                             </label>
                             <div className="relative">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="Enter your password"
                                     className="w-full px-3 py-2 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none"
                                 />
-                                <span className="absolute left-3 top-2.5 text-gray-400">
-                                    <i className="fas fa-lock"></i>
-                                </span>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-2.5 text-gray-500"
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
                             </div>
                         </div>
                         <div>
@@ -82,18 +80,22 @@ const Register = () => {
                             </label>
                             <div className="relative">
                                 <input
-                                    type="password"
+                                    type={showConfirmPassword ? "text" : "password"}
                                     placeholder="Confirm your password"
                                     className="w-full px-3 py-2 border-2 border-[#003C60] rounded-lg shadow-sm focus:outline-none"
                                 />
-                                <span className="absolute left-3 top-2.5 text-gray-400">
-                                    <i className="fas fa-lock"></i>
-                                </span>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute right-3 top-2.5 text-gray-500"
+                                >
+                                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
                             </div>
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-[#3F7AFF] text-white font-bold py-2 rounded-full shadow-xl hover:scale-105 transition-all ease-in-out duration-700"
+                            className="w-full bg-[#3F7AFF] text-white text-lg font-semibold py-3 rounded-xl shadow-lg hover:bg-[#2F5ECC] transition-all duration-300 transform "
                         >
                             Register
                         </button>
