@@ -148,6 +148,8 @@ const ExamManagement = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
+
+      
       <header className="bg-blue-600 text-white py-4 px-6 shadow-md flex flex-col md:flex-row justify-between items-center">
         <h1 className="text-2xl font-bold mb-4 md:mb-0">Exam Management</h1>
         <div className="flex items-center gap-4 w-full md:w-auto">

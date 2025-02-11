@@ -4,6 +4,7 @@ import { AiFillEye, AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 const QuizManagement = () => {
+  const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [filteredQuizzes, setFilteredQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,34 +19,34 @@ const QuizManagement = () => {
   const [editId, setEditId] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const navigate = useNavigate(); // Initialize navigate for routing
-
-  // Load quizzes from localStorage on mount
+  // Load quizzes from localStorage on component mount
   useEffect(() => {
-    const savedQuizzes = JSON.parse(localStorage.getItem("quizzes")) || [];
-    setQuizzes(savedQuizzes);
-    setFilteredQuizzes(savedQuizzes);
+    const savedQuizzes = localStorage.getItem("quizzes");
+    if (savedQuizzes) {
+      const parsedQuizzes = JSON.parse(savedQuizzes);
+      setQuizzes(parsedQuizzes);
+      setFilteredQuizzes(parsedQuizzes);
+    }
   }, []);
 
-  // Update localStorage and filter when quizzes or search change
+  // Save quizzes to localStorage whenever the quizzes state changes
   useEffect(() => {
     localStorage.setItem("quizzes", JSON.stringify(quizzes));
-    filterQuizzes(searchQuery);
-  }, [quizzes, searchQuery]); // Add proper dependencies here
+  }, [quizzes]);
 
-  const filterQuizzes = (query) => {
+  // Filter quizzes whenever the quizzes or searchQuery changes
+  useEffect(() => {
     const filtered = quizzes.filter((quiz) =>
       [quiz.courseName, quiz.courseCode, quiz.quizNo]
         .join(" ")
         .toLowerCase()
-        .includes(query.toLowerCase())
+        .includes(searchQuery.toLowerCase())
     );
     setFilteredQuizzes(filtered);
-  };
+  }, [quizzes, searchQuery]);
+
   const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    filterQuizzes(query);
+    setSearchQuery(e.target.value);
   };
 
   const handleInputChange = (e) => {
@@ -84,42 +85,28 @@ const QuizManagement = () => {
   };
 
   const handleSaveQuiz = () => {
-    if (
-      !quizForm.courseName ||
-      !quizForm.courseCode ||
-      !quizForm.creditHours ||
-      !quizForm.quizNo ||
-      !quizForm.totalMarks
-    ) {
+    if (Object.values(quizForm).some((value) => !value.trim())) {
       alert("Please fill out all fields.");
       return;
     }
 
-    let updatedQuizzes;
-
-    if (isEditing) {
-      updatedQuizzes = quizzes.map((quiz) =>
-        quiz.id === editId ? { ...quiz, ...quizForm } : quiz
-      );
-    } else {
-      const newQuiz = { ...quizForm, id: Date.now() };
-      updatedQuizzes = [...quizzes, newQuiz];
-    }
+    const updatedQuizzes = isEditing
+      ? quizzes.map((quiz) =>
+          quiz.id === editId ? { ...quizForm, id: editId } : quiz
+        )
+      : [...quizzes, { ...quizForm, id: Date.now() }];
 
     setQuizzes(updatedQuizzes);
-    localStorage.setItem("quizzes", JSON.stringify(updatedQuizzes)); // Update localStorage immediately
-
     closePopup();
   };
 
   const handleDeleteQuiz = (id) => {
     const updatedQuizzes = quizzes.filter((quiz) => quiz.id !== id);
     setQuizzes(updatedQuizzes);
-    localStorage.setItem("quizzes", JSON.stringify(updatedQuizzes)); // Update localStorage after deletion
   };
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Quiz Management</h1>

@@ -277,17 +277,20 @@ const QuizQuestions = () => {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="w-full text-xl font-bold text-white bg-blue-600">
+      <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">
+          {" "}
           Create Question - {courseName} - Quiz {quizNo}
         </h1>
-        <button
-          onClick={() => setIsModalVisible(true)}
-          className="bg-blue-600 text-white font-medium px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-        >
-          Create Question
-        </button>
-      </div>
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => setIsModalVisible(true)}
+            className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-500"
+          >
+            Create Question
+          </button>
+        </div>
+      </header>
 
       <div className="overflow-x-auto mt-6 border border-gray-300 rounded-lg">
         <table className="table-auto w-full text-sm text-gray-800 bg-white shadow rounded-lg">
