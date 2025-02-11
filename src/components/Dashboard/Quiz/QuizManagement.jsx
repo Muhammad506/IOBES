@@ -20,16 +20,18 @@ const QuizManagement = () => {
 
   const navigate = useNavigate(); // Initialize navigate for routing
 
+  // Load quizzes from localStorage on mount
   useEffect(() => {
     const savedQuizzes = JSON.parse(localStorage.getItem("quizzes")) || [];
     setQuizzes(savedQuizzes);
     setFilteredQuizzes(savedQuizzes);
   }, []);
 
+  // Update localStorage and filter when quizzes or search change
   useEffect(() => {
     localStorage.setItem("quizzes", JSON.stringify(quizzes));
     filterQuizzes(searchQuery);
-  }, [quizzes]);
+  }, [quizzes, searchQuery]); // Add proper dependencies here
 
   const filterQuizzes = (query) => {
     const filtered = quizzes.filter((quiz) =>
@@ -40,7 +42,6 @@ const QuizManagement = () => {
     );
     setFilteredQuizzes(filtered);
   };
-
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -83,21 +84,30 @@ const QuizManagement = () => {
   };
 
   const handleSaveQuiz = () => {
-    if (!quizForm.courseName || !quizForm.courseCode || !quizForm.creditHours || !quizForm.quizNo || !quizForm.totalMarks) {
+    if (
+      !quizForm.courseName ||
+      !quizForm.courseCode ||
+      !quizForm.creditHours ||
+      !quizForm.quizNo ||
+      !quizForm.totalMarks
+    ) {
       alert("Please fill out all fields.");
       return;
     }
 
+    let updatedQuizzes;
+
     if (isEditing) {
-      setQuizzes(
-        quizzes.map((quiz) =>
-          quiz.id === editId ? { ...quiz, ...quizForm } : quiz
-        )
+      updatedQuizzes = quizzes.map((quiz) =>
+        quiz.id === editId ? { ...quiz, ...quizForm } : quiz
       );
     } else {
       const newQuiz = { ...quizForm, id: Date.now() };
-      setQuizzes([...quizzes, newQuiz]);
+      updatedQuizzes = [...quizzes, newQuiz];
     }
+
+    setQuizzes(updatedQuizzes);
+    localStorage.setItem("quizzes", JSON.stringify(updatedQuizzes)); // Update localStorage immediately
 
     closePopup();
   };
@@ -105,6 +115,7 @@ const QuizManagement = () => {
   const handleDeleteQuiz = (id) => {
     const updatedQuizzes = quizzes.filter((quiz) => quiz.id !== id);
     setQuizzes(updatedQuizzes);
+    localStorage.setItem("quizzes", JSON.stringify(updatedQuizzes)); // Update localStorage after deletion
   };
 
   return (
@@ -137,26 +148,55 @@ const QuizManagement = () => {
         <table className="min-w-full bg-white text-center">
           <thead>
             <tr className="bg-blue-100 text-blue-700">
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Code</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Credit Hours</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Quiz No</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Total Marks</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Course Name
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Course Code
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Credit Hours
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Quiz No
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Total Marks
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredQuizzes.length > 0 ? (
               filteredQuizzes.map((quiz) => (
-                <tr key={quiz.id} className="hover:bg-blue-50 border border-blue-300 transition-all">
-                  <td className="px-6 border-r-2 border-blue-300">{quiz.courseName}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.courseCode}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.creditHours}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.quizNo}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.totalMarks}</td>
+                <tr
+                  key={quiz.id}
+                  className="hover:bg-blue-50 border border-blue-300 transition-all"
+                >
+                  <td className="px-6 border-r-2 border-blue-300">
+                    {quiz.courseName}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.courseCode}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.creditHours}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.quizNo}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.totalMarks}
+                  </td>
                   <td className="py-3 px-6 flex justify-center gap-6 border-blue-300">
                     <AiFillEye
-                      onClick={() => navigate(`quiz-questions/${quiz.courseName}/${quiz.quizNo}`)}
+                      onClick={() =>
+                        navigate(
+                          `/dashboard/quiz-questions/${quiz.courseName}/${quiz.quizNo}`
+                        )
+                      }
                       className="text-green-600 cursor-pointer hover:text-green-700 transform transition duration-150 size-4"
                     />
                     <AiFillEdit
@@ -189,7 +229,13 @@ const QuizManagement = () => {
               {isEditing ? "Edit Quiz" : "Create Quiz"}
             </h2>
             <div className="grid gap-4">
-              {["courseName", "courseCode", "creditHours", "quizNo", "totalMarks"].map((field, index) => (
+              {[
+                "courseName",
+                "courseCode",
+                "creditHours",
+                "quizNo",
+                "totalMarks",
+              ].map((field, index) => (
                 <input
                   key={index}
                   type="text"
@@ -202,12 +248,16 @@ const QuizManagement = () => {
               ))}
             </div>
             <div className="mt-6 flex justify-end gap-4">
-              <button onClick={closePopup}
+              <button
+                onClick={closePopup}
                 className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
               >
                 Cancel
               </button>
-              <button onClick={handleSaveQuiz} className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-sm shadow-md">
+              <button
+                onClick={handleSaveQuiz}
+                className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-sm shadow-md"
+              >
                 {isEditing ? "Update Quiz" : "Save Quiz"}
               </button>
             </div>

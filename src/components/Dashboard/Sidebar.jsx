@@ -17,7 +17,7 @@ const Sidebar = () => {
     // Reusable Links with different icons
     const links = [
         { to: "/dashboard", icon: <FaHome className="text-lg" />, label: "Home" },
-        { to: "/dashboard/coarse-management", icon: <GiBookmark className="text-lg" />, label: "Coarse Management" },
+        { to: "/dashboard/coarse-management", icon: <GiBookmark className="text-lg" />, label: "Course Management" },
         { to: "/dashboard/exam-management", icon: <SlBookOpen className="text-lg" />, label: "Exam Management" },
         { to: "/dashboard/quiz-management", icon: <IoNewspaperOutline className="text-lg" />, label: "Quiz Management" },
         { to: "/dashboard/assignment-management", icon: <MdAssignment className="text-lg" />, label: "Assignment Management" },
