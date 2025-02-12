@@ -4,6 +4,7 @@ import { AiFillEye, AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 const QuizManagement = () => {
+  const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [filteredQuizzes, setFilteredQuizzes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,33 +19,34 @@ const QuizManagement = () => {
   const [editId, setEditId] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const navigate = useNavigate(); // Initialize navigate for routing
-
+  // Load quizzes from localStorage on component mount
   useEffect(() => {
-    const savedQuizzes = JSON.parse(localStorage.getItem("quizzes")) || [];
-    setQuizzes(savedQuizzes);
-    setFilteredQuizzes(savedQuizzes);
+    const savedQuizzes = localStorage.getItem("quizzes");
+    if (savedQuizzes) {
+      const parsedQuizzes = JSON.parse(savedQuizzes);
+      setQuizzes(parsedQuizzes);
+      setFilteredQuizzes(parsedQuizzes);
+    }
   }, []);
 
+  // Save quizzes to localStorage whenever the quizzes state changes
   useEffect(() => {
     localStorage.setItem("quizzes", JSON.stringify(quizzes));
-    filterQuizzes(searchQuery);
   }, [quizzes]);
 
-  const filterQuizzes = (query) => {
+  // Filter quizzes whenever the quizzes or searchQuery changes
+  useEffect(() => {
     const filtered = quizzes.filter((quiz) =>
       [quiz.courseName, quiz.courseCode, quiz.quizNo]
         .join(" ")
         .toLowerCase()
-        .includes(query.toLowerCase())
+        .includes(searchQuery.toLowerCase())
     );
     setFilteredQuizzes(filtered);
-  };
+  }, [quizzes, searchQuery]);
 
   const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    filterQuizzes(query);
+    setSearchQuery(e.target.value);
   };
 
   const handleInputChange = (e) => {
@@ -83,22 +85,18 @@ const QuizManagement = () => {
   };
 
   const handleSaveQuiz = () => {
-    if (!quizForm.courseName || !quizForm.courseCode || !quizForm.creditHours || !quizForm.quizNo || !quizForm.totalMarks) {
+    if (Object.values(quizForm).some((value) => !value.trim())) {
       alert("Please fill out all fields.");
       return;
     }
 
-    if (isEditing) {
-      setQuizzes(
-        quizzes.map((quiz) =>
-          quiz.id === editId ? { ...quiz, ...quizForm } : quiz
+    const updatedQuizzes = isEditing
+      ? quizzes.map((quiz) =>
+          quiz.id === editId ? { ...quizForm, id: editId } : quiz
         )
-      );
-    } else {
-      const newQuiz = { ...quizForm, id: Date.now() };
-      setQuizzes([...quizzes, newQuiz]);
-    }
+      : [...quizzes, { ...quizForm, id: Date.now() }];
 
+    setQuizzes(updatedQuizzes);
     closePopup();
   };
 
@@ -108,7 +106,7 @@ const QuizManagement = () => {
   };
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Quiz Management</h1>
@@ -137,26 +135,55 @@ const QuizManagement = () => {
         <table className="min-w-full bg-white text-center">
           <thead>
             <tr className="bg-blue-100 text-blue-700">
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Code</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Credit Hours</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Quiz No</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Total Marks</th>
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Course Name
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Course Code
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Credit Hours
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Quiz No
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Total Marks
+              </th>
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredQuizzes.length > 0 ? (
               filteredQuizzes.map((quiz) => (
-                <tr key={quiz.id} className="hover:bg-blue-50 border border-blue-300 transition-all">
-                  <td className="px-6 border-r-2 border-blue-300">{quiz.courseName}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.courseCode}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.creditHours}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.quizNo}</td>
-                  <td className="px-6 border-x-2 border-blue-300">{quiz.totalMarks}</td>
+                <tr
+                  key={quiz.id}
+                  className="hover:bg-blue-50 border border-blue-300 transition-all"
+                >
+                  <td className="px-6 border-r-2 border-blue-300">
+                    {quiz.courseName}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.courseCode}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.creditHours}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.quizNo}
+                  </td>
+                  <td className="px-6 border-x-2 border-blue-300">
+                    {quiz.totalMarks}
+                  </td>
                   <td className="py-3 px-6 flex justify-center gap-6 border-blue-300">
                     <AiFillEye
-                      onClick={() => navigate(`quiz-questions/${quiz.courseName}/${quiz.quizNo}`)}
+                      onClick={() =>
+                        navigate(
+                          `/dashboard/quiz-questions/${quiz.courseName}/${quiz.quizNo}`
+                        )
+                      }
                       className="text-green-600 cursor-pointer hover:text-green-700 transform transition duration-150 size-4"
                     />
                     <AiFillEdit
@@ -189,7 +216,13 @@ const QuizManagement = () => {
               {isEditing ? "Edit Quiz" : "Create Quiz"}
             </h2>
             <div className="grid gap-4">
-              {["courseName", "courseCode", "creditHours", "quizNo", "totalMarks"].map((field, index) => (
+              {[
+                "courseName",
+                "courseCode",
+                "creditHours",
+                "quizNo",
+                "totalMarks",
+              ].map((field, index) => (
                 <input
                   key={index}
                   type="text"
@@ -202,12 +235,16 @@ const QuizManagement = () => {
               ))}
             </div>
             <div className="mt-6 flex justify-end gap-4">
-              <button onClick={closePopup}
+              <button
+                onClick={closePopup}
                 className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
               >
                 Cancel
               </button>
-              <button onClick={handleSaveQuiz} className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-sm shadow-md">
+              <button
+                onClick={handleSaveQuiz}
+                className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-sm shadow-md"
+              >
                 {isEditing ? "Update Quiz" : "Save Quiz"}
               </button>
             </div>
