@@ -32,10 +32,11 @@ const HeroAboutSection = () => {
         return () => clearInterval(interval);
     }, [slides.length]);
 
+    // bg-gradient-to-tr from-[#79A3FF] to-[#A8D8F0]
     return (
         <section className="font-inter">
             {/* Hero Section */}
-            <div className="relative pt-20 lg:pt-16 xl:pt-12 max-h-screen bg-gradient-to-tr from-[#79A3FF] to-[#A8D8F0] border-b border-black">
+            <div className="relative pt-20 lg:pt-16 xl:pt-12 max-h-screen bg-gradient-to-tr from-[#0066CC]  py-10 to-[#6699FF] border-b border-black">
                 {/* Carousel */}
                 <div className="h-full overflow-hidden ">
                     <div

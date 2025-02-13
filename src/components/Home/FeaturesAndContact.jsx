@@ -31,7 +31,7 @@ const FeaturesAndContact = () => {
     return (
         <div className="font-inter">
             {/* Features Section */}
-            <section id="features" className="py-12 px-6 bg-gradient-to-br from-[#79A3FF] to-[#A8D8F0]">
+            <section id="features" className=" px-6 bg-gradient-to-tr from-[#0066CC]  py-10 to-[#6699FF]">
                 <div>
                     <h1 className="text-lg lg:text-xl font-semibold uppercase mb-4 text-black tracking-wider text-center">
                         Our Features

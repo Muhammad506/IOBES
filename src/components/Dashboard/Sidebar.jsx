@@ -21,7 +21,7 @@ const Sidebar = () => {
         { to: "/dashboard/exam-management", icon: <SlBookOpen className="text-lg" />, label: "Exam Management" },
         { to: "/dashboard/quiz-management", icon: <IoNewspaperOutline className="text-lg" />, label: "Quiz Management" },
         { to: "/dashboard/assignment-management", icon: <MdAssignment className="text-lg" />, label: "Assignment Management" },
-        { to: "/dashboard/settings", icon: <RiLogoutCircleLine className="text-lg" />, label: "Logout" },
+        { to: "/login", icon: <RiLogoutCircleLine className="text-lg" />, label: "Logout" },
     ];
 
     // Link rendering function
@@ -36,7 +36,7 @@ const Sidebar = () => {
                     }
                 >
                     {link.icon}
-                    <span className="text-lg font-medium">{link.label}</span>
+                    <span className="text-sm font-medium">{link.label}</span>
                 </NavLink>
             </li>
         ));
@@ -46,7 +46,9 @@ const Sidebar = () => {
             {/* Sidebar for Medium and Larger Devices */}
             <div className="hidden lg:block h-screen  lg:w-[25%] xl:w-[18%] p-4 fixed bg-gradient-to-b from-[#0066CC] to-[#6699FF] shadow-lg">
                 <div className="flex items-center justify-center h-20 mb-6">
-                    <h1 className="text-2xl font-extrabold tracking-wide text-white">LOGO</h1>
+                    <NavLink to="/">
+                        <h1 className="text-2xl font-extrabold tracking-wide text-white">LOGO</h1>
+                    </NavLink>
                 </div>
                 <nav className="flex-1 overflow-y-auto">
                     <ul className="space-y-2">{renderLinks()}</ul>

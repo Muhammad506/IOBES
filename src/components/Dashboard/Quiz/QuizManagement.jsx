@@ -31,7 +31,9 @@ const QuizManagement = () => {
 
   // Save quizzes to localStorage whenever the quizzes state changes
   useEffect(() => {
-    localStorage.setItem("quizzes", JSON.stringify(quizzes));
+    if (quizzes.length > 0) {
+      localStorage.setItem("quizzes", JSON.stringify(quizzes));
+    }
   }, [quizzes]);
 
   // Filter quizzes whenever the quizzes or searchQuery changes
@@ -92,9 +94,12 @@ const QuizManagement = () => {
 
     const updatedQuizzes = isEditing
       ? quizzes.map((quiz) =>
-          quiz.id === editId ? { ...quizForm, id: editId } : quiz
-        )
-      : [...quizzes, { ...quizForm, id: Date.now() }];
+        quiz.id === editId ? { ...quizForm, id: editId } : quiz
+      )
+      : [
+        ...quizzes,
+        { ...quizForm, id: Date.now() } // Ensure a unique id for each quiz
+      ];
 
     setQuizzes(updatedQuizzes);
     closePopup();
@@ -109,7 +114,7 @@ const QuizManagement = () => {
     <div className="min-h-screen">
       {/* Header */}
       <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Quiz Management</h1>
+        <h1 className="text-2xl font-bold mb-4 md:mb-0">Quiz Management</h1>
         <div className="flex items-center space-x-4">
           <div className="relative">
             <input
@@ -211,18 +216,18 @@ const QuizManagement = () => {
       {/* Popup Modal */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-sm shadow-lg w-full max-w-xl">
-            <h2 className="text-2xl font-semibold mb-6 text-center text-blue-700">
-              {isEditing ? "Edit Quiz" : "Create Quiz"}
-            </h2>
-            <div className="grid gap-4">
-              {[
-                "courseName",
-                "courseCode",
-                "creditHours",
-                "quizNo",
-                "totalMarks",
-              ].map((field, index) => (
+          <div className="bg-white shadow-2xl w-full max-w-lg border-4 border-blue-500 ">
+
+            {/* Header */}
+            <div className="bg-blue-500 text-white text-center py-4 shadow-md">
+              <h2 className="text-2xl font-bold tracking-wide">
+                {isEditing ? "Edit Quiz" : "Create Quiz"}
+              </h2>
+            </div>
+
+            {/* Form Fields */}
+            <div className="grid gap-4 mt-6 p-6">
+              {["courseName", "courseCode", "creditHours", "quizNo", "totalMarks"].map((field, index) => (
                 <input
                   key={index}
                   type="text"
@@ -230,24 +235,26 @@ const QuizManagement = () => {
                   value={quizForm[field]}
                   onChange={handleInputChange}
                   placeholder={field.replace(/([A-Z])/g, " $1").trim()}
-                  className="p-4 border border-blue-600 rounded-sm focus:outline-none shadow-sm"
+                  className="p-3 border border-blue-400  focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
                 />
               ))}
             </div>
-            <div className="mt-6 flex justify-end gap-4">
+            {/* Buttons */}
+            <div className="flex justify-end gap-4 pb-6 px-6">
               <button
                 onClick={closePopup}
-                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
+                className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-6 py-2  transition duration-300"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveQuiz}
-                className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-sm shadow-md"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2  shadow-lg transform transition duration-300 hover:scale-105"
               >
                 {isEditing ? "Update Quiz" : "Save Quiz"}
               </button>
             </div>
+
           </div>
         </div>
       )}

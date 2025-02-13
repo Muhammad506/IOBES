@@ -6,52 +6,36 @@ const Footer = () => {
   const location = useLocation();
 
   return (
-    <footer className="bg-gradient-to-br from-[#79A3FF] to-[#A8D8F0] text-black py-12">
-      <div className="container mx-auto px-6 text-center grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer className="bg-gradient-to-tr from-[#0066CC] to-[#6699FF] text-white py-12 font-inter">
+      <div className="container mx-auto px-6 text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
         {/* Grid 1: Logo and Website Details */}
         <div className="flex flex-col items-center">
-          <span className="text-center font-extrabold flex justify-center items-center text-3xl">
+          <span className="text-center font-extrabold text-4xl mb-4">
             LOGO
           </span>
-          <p className="text-sm text-gray-900 mt-2">
-            FYP Portal - Your trusted platform for solar energy solutions
+          <p className="text-sm text-white font-medium  px-8 mb-4">
+            An AI-driven examination system ensuring fair, efficient, and data-driven assessments to enhance learning outcomes.
           </p>
         </div>
 
         {/* Grid 2: Links Section */}
         <div className="flex flex-col items-center space-y-4">
+          <h2 className="font-bold text-xl">Links</h2>
           <Link
             to="/"
-            className={`text-lg font-semibold transition duration-300 ${location.pathname === "/" ? "text-white underline" : "hover:text-white  "
-              }`}
+            className={` font-semibold transition text-white duration-300 ${location.pathname === "/" ? "text-gray-900 underline" : "hover:text-gray-900"}`}
           >
             Home
           </Link>
           <Link
             to="/about"
-            className={`text-lg font-semibold transition duration-300 ${location.pathname === "/about" ? "text-white underline" : "hover:text-white"
-              }`}
+            className={` font-semibold text-white transition duration-300 ${location.pathname === "/about" ? "text-gray-900 underline" : "hover:text-gray-900"}`}
           >
             About
           </Link>
           <Link
-            to="/features"
-            className={`text-lg font-semibold transition duration-300 ${location.pathname === "/features" ? "text-white underline" : "hover:text-white"
-              }`}
-          >
-            Features
-          </Link>
-          <Link
-            to="/contact"
-            className={`text-lg font-semibold transition duration-300 ${location.pathname === "/contact" ? "text-white underline" : "hover:text-white"
-              }`}
-          >
-            Contact
-          </Link>
-          <Link
             to="/dashboard"
-            className={`text-lg font-semibold transition duration-300 ${location.pathname === "/dashboard" ? "text-white underline" : "hover:text-white"
-              }`}
+            className={` font-semibold text-white transition duration-300 ${location.pathname === "/dashboard" ? "text-gray-900 underline" : "hover:text-gray-900"}`}
           >
             Dashboard
           </Link>
@@ -59,15 +43,15 @@ const Footer = () => {
 
         {/* Grid 3: Contact Info Section */}
         <div className="flex flex-col items-center">
-          <p className="text-lg font-semibold mb-2">Contact Info</p>
-          <p className="text-sm text-gray-800">Phone: (123) 456-7890</p>
-          <p className="text-sm text-gray-800 mb-4">Email: info@fypportal.com</p>
+          <p className="text-xl font-bold mb-2">Contact Info</p>
+          <p className="text-sm text-white font-medium">Phone: (123) 456-7890</p>
+          <p className="text-sm text-white font-medium mb-4">Email: info@fypportal.com</p>
           <div className="flex space-x-6 mt-4 justify-center">
             <a
               href="https://www.facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-400 transition duration-300"
+              className="text-3xl hover:text-blue-950 transition duration-300"
               aria-label="Facebook"
             >
               <FaFacebook />
@@ -76,7 +60,7 @@ const Footer = () => {
               href="https://www.twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-400 transition duration-300"
+              className="text-3xl hover:text-blue-950 transition duration-300"
               aria-label="Twitter"
             >
               <FaTwitter />
@@ -85,7 +69,7 @@ const Footer = () => {
               href="https://www.instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-400 transition duration-300"
+              className="text-3xl hover:text-blue-950 transition duration-300"
               aria-label="Instagram"
             >
               <FaInstagram />
@@ -94,7 +78,7 @@ const Footer = () => {
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-400 transition duration-300"
+              className="text-3xl hover:text-blue-950 transition duration-300"
               aria-label="LinkedIn"
             >
               <FaLinkedin />
@@ -102,9 +86,12 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <hr className="border-t border-gray-500 my-8 w-2/3 mx-auto" />
+
+      {/* Horizontal Line */}
+      <hr className="border-t border-gray-200 my-8 w-3/4 mx-auto" />
+
       {/* Copyright Section */}
-      <div className="text-center text-sm text-gray-900 mt-8">
+      <div className="text-center text-sm text-blue-950 font-semibold mt-8">
         <p>&copy; {new Date().getFullYear()} FYP Portal. All rights reserved.</p>
       </div>
     </footer>
