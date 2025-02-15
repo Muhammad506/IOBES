@@ -96,14 +96,14 @@ const ExamManagement = () => {
       const updatedData = data.map((exam) =>
         exam.id === editId
           ? {
-              ...exam,
-              courseName,
-              courseCode,
-              midtermMarks,
-              finalMarks,
-              internalMarks,
-              totalMarks,
-            }
+            ...exam,
+            courseName,
+            courseCode,
+            midtermMarks,
+            finalMarks,
+            internalMarks,
+            totalMarks,
+          }
           : exam
       );
       setData(updatedData);
@@ -148,11 +148,11 @@ const ExamManagement = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-
-      
       <header className="bg-blue-600 text-white py-4 px-6 shadow-md flex flex-col md:flex-row justify-between items-center">
         <h1 className="text-2xl font-bold mb-4 md:mb-0">Exam Management</h1>
         <div className="flex items-center gap-4 w-full md:w-auto">
+
+          {/* searchbar  */}
           <div className="relative w-full md:w-64">
             <input
               type="text"
@@ -163,6 +163,8 @@ const ExamManagement = () => {
             />
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
           </div>
+
+          {/* button  */}
           <button
             onClick={() => setShowModal(true)}
             className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-500"
@@ -177,7 +179,7 @@ const ExamManagement = () => {
         <table className="w-full border-blue-300 border ">
           <thead>
             <tr className=" bg-blue-100 text-blue-700">
-              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
+              <th className="py-2 px-6 font-medium border border-blue-300 border-b-2   border-r-2">
                 Course Name
               </th>
               <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2 text-nowrap">
@@ -200,6 +202,8 @@ const ExamManagement = () => {
               </th>
             </tr>
           </thead>
+
+          {/* table data  */}
           <tbody>
             {filteredData.length > 0 ? (
               filteredData.map((item) => (
@@ -255,83 +259,62 @@ const ExamManagement = () => {
       {/* Modal for Create/Edit Exam */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white w-full max-w-lg shadow-md">
-            <div className="p-6 border-b border-gray-300">
-              <h2 className="text-xl font-bold justify-center flex items-center text-blue-700">
+          <div className="bg-white w-full max-w-lg shadow-md border-4 border-blue-500"> {/* Added border to the popup */}
+
+            {/* Header with Background */}
+            <div className="px-4 py-3 bg-blue-500 text-white">
+              <h2 className="text-2xl font-bold flex justify-center">
                 {editId ? "Edit Exam" : "Create Exam"}
               </h2>
             </div>
-            <div className="p-6">
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  {/* <label className="text-gray-700">Course Name</label> */}
-                  <input
-                    type="text"
-                    value={courseName}
-                    onChange={(e) => setCourseName(e.target.value)}
-                    className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
-                    placeholder="Enter Course Name"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  {/* <label className="text-gray-700">Course Code</label> */}
-                  <input
-                    type="text"
-                    value={courseCode}
-                    onChange={(e) => setCourseCode(e.target.value)}
-                    className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
-                    placeholder="Enter Course Code"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  {/* <label className="text-gray-700">Midterm Marks</label> */}
-                  <input
-                    type="number"
-                    value={midtermMarks}
-                    onChange={(e) => setMidtermMarks(e.target.value)}
-                    className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
-                    placeholder="Enter Midterm Marks"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  {/* <label className="text-gray-700">Final Marks</label> */}
-                  <input
-                    type="number"
-                    value={finalMarks}
-                    onChange={(e) => setFinalMarks(e.target.value)}
-                    className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
-                    placeholder="Enter Final Marks"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  {/* <label className="text-gray-700">Internal Marks</label> */}
-                  <input
-                    type="number"
-                    value={internalMarks}
-                    onChange={(e) => setInternalMarks(e.target.value)}
-                    className="p-2 border border-gray-300 focus:outline-none focus:border-blue-500"
-                    placeholder="Enter Internal Marks"
-                  />
-                </div>
+
+            {/* Form Fields */}
+            <div className="px-4 py-3">
+              <div className="flex flex-col gap-3">
+                {[
+                  { name: "courseName", label: "Course Name", value: courseName, setter: setCourseName },
+                  { name: "courseCode", label: "Course Code", value: courseCode, setter: setCourseCode },
+                  { name: "midtermMarks", label: "Midterm Marks", value: midtermMarks, setter: setMidtermMarks, type: "number" },
+                  { name: "finalMarks", label: "Final Marks", value: finalMarks, setter: setFinalMarks, type: "number" },
+                  { name: "internalMarks", label: "Internal Marks", value: internalMarks, setter: setInternalMarks, type: "number" },
+                ].map(({ name, label, value, setter, type = "text" }, index) => (
+                  <div key={index} className="flex flex-col">
+                    <label htmlFor={name} className="text-gray-700 font-medium mb-1">
+                      {label}
+                    </label>
+                    <input
+                      id={name}
+                      type={type}
+                      value={value}
+                      onChange={(e) => setter(e.target.value)}
+                      placeholder={label}
+                      className="p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="p-6 border-t border-gray-300 flex justify-end gap-4">
-              <button
-                onClick={editId ? handleUpdateExam : handleAddExam}
-                className="bg-blue-600 text-white px-6 py-2 hover:bg-blue-700 transition"
-              >
-                {editId ? "Update" : "Create"}
-              </button>
+
+            {/* Buttons */}
+            <div className="px-4 py-3 flex justify-end gap-3">
               <button
                 onClick={() => {
                   setShowModal(false);
                   resetForm();
                 }}
-                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
+                className="bg-gray-500 text-white px-4 py-2 hover:bg-gray-600 transition"
               >
                 Cancel
               </button>
+              <button
+                onClick={editId ? handleUpdateExam : handleAddExam}
+                className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
+              >
+                {editId ? "Update" : "Create"}
+              </button>
+
             </div>
+
           </div>
         </div>
       )}

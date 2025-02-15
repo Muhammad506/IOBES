@@ -116,6 +116,8 @@ const CoarseManagement = () => {
             <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
                 <h1 className="text-2xl font-semibold">Course Management</h1>
                 <div className="flex items-center space-x-4">
+
+                    {/* search bar  */}
                     <div className="relative">
                         <input
                             type="text"
@@ -126,6 +128,7 @@ const CoarseManagement = () => {
                         />
                         <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
                     </div>
+                    {/* button  */}
                     <button
                         onClick={() => openPopup()}
                         className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-300"
@@ -157,14 +160,14 @@ const CoarseManagement = () => {
                                     <td className="py-2 px-6 border-x-2 border-blue-300 ">{course.teacher}</td>
                                     <td className="py-2 px-6 border-x-2 border-blue-300">{course.creditHours}</td>
                                     <td className="py-2 px-6 border-x-2 border-blue-300">{course.semester}</td>
-                                    <td className="py-6 px-6  flex justify-center gap-6 border-blue-300">
+                                    <td className="py-2 px-6  flex justify-center gap-6 border-blue-300">
                                         <FaEdit
                                             onClick={() => openPopup(true, course)}
                                             className="text-blue-600 cursor-pointer hover:text-blue-700 transform transition duration-150 size-5"
                                         />
                                         <FaTrash
                                             onClick={() => handleDeleteCourse(course.id)}
-                                            className="text-red-600 cursor-pointer hover:text-red-700 transform transition duration-150 size-5"
+                                            className="text-red-600 cursor-pointer hover:text-red-700 transform transition duration-150 size-4"
                                         />
                                     </td>
                                 </tr>
@@ -183,69 +186,60 @@ const CoarseManagement = () => {
             {/* Popup Modal */}
             {isPopupOpen && (
                 <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-8 rounded-sm shadow-lg w-full max-w-xl">
-                        <h2 className="text-2xl font-semibold mb-6 text-center text-blue-700">
-                            {isEditing ? "Edit Course" : "Create Course"}
-                        </h2>
-                        <div className="grid gap-4">
-                            <input
-                                type="text"
-                                name="name"
-                                value={courseForm.name}
-                                onChange={handleInputChange}
-                                placeholder="Course Name"
-                                className="p-4 border border-blue-600 rounded-sm focus:outline-none  shadow-sm"
-                            />
-                            <input
-                                type="text"
-                                name="code"
-                                value={courseForm.code}
-                                onChange={handleInputChange}
-                                placeholder="Course Code"
-                                className="p-4 border border-blue-600 rounded-sm focus:outline-none  shadow-sm"
-                            />
-                            <input
-                                type="text"
-                                name="teacher"
-                                value={courseForm.teacher}
-                                onChange={handleInputChange}
-                                placeholder="Teacher"
-                                className="p-4 border border-blue-600 rounded-sm focus:outline-none  shadow-sm"
-                            />
-                            <input
-                                type="number"
-                                name="creditHours"
-                                value={courseForm.creditHours}
-                                onChange={handleInputChange}
-                                placeholder="Credit Hours"
-                                className="p-4 border border-blue-600 rounded-sm focus:outline-none  shadow-sm"
-                            />
-                            <input
-                                type="text"
-                                name="semester"
-                                value={courseForm.semester}
-                                onChange={handleInputChange}
-                                placeholder="Semester"
-                                className="p-4 border border-blue-600 rounded-sm focus:outline-none  shadow-sm"
-                            />
+                    <div className="bg-white w-full max-w-xl shadow-md border-4 border-blue-500"> {/* Added border to popup */}
+
+                        {/* Header  */}
+                        <div className="px-4 py-3 bg-blue-500 text-white text-center">
+                            <h2 className="text-2xl font-bold">
+                                {isEditing ? "Edit Course" : "Create Course"}
+                            </h2>
                         </div>
-                        <div className="mt-6 flex justify-end gap-4">
+
+                        {/* Form Fields */}
+                        <div className="px-4 py-3">
+                            <div className="grid gap-3">
+                                {[
+                                    { name: "name", label: "Course Name", placeholder: "Enter Course Name", value: courseForm.name },
+                                    { name: "code", label: "Course Code", placeholder: "Enter Course Code", value: courseForm.code },
+                                    { name: "teacher", label: "Teacher", placeholder: "Enter Teacher Name", value: courseForm.teacher },
+                                    { name: "creditHours", label: "Credit Hours", placeholder: "Enter Credit Hours", value: courseForm.creditHours, type: "number" },
+                                    { name: "semester", label: "Semester", placeholder: "Enter Semester", value: courseForm.semester },
+                                ].map(({ name, label, placeholder, value, type = "text" }, index) => (
+                                    <div key={index} className="flex flex-col">
+                                        <label className="text-gray-700 font-medium">{label}</label>
+                                        <input
+                                            type={type}
+                                            name={name}
+                                            value={value}
+                                            onChange={handleInputChange}
+                                            placeholder={placeholder}
+                                            className="p-2 border border-gray-400 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="px-4 py-3 flex justify-end gap-3">
                             <button
                                 onClick={closePopup}
-                                className="bg-gray-500 text-white px-6 py-2 hover:bg-gray-600 transition"
+                                className="bg-gray-500 text-white px-4 py-2 hover:bg-gray-600 transition"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSaveCourse}
-                                className="py-2 px-6 bg-blue-600 hover:bg-blue-700  text-white  duration-500   rounded-sm shadow-md transition-transform "
+                                className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
                             >
                                 {isEditing ? "Update Course" : "Save Course"}
                             </button>
                         </div>
+
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

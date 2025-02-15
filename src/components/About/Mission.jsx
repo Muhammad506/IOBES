@@ -1,9 +1,9 @@
 const Mission = () => (
-    <section className="py-16 bg-gradient-to-r from-gray-50 via-gray-100 to-gray-200">
+    <section className="py-16 bg-gradient-to-r font-inter from-gray-50 via-gray-100 to-gray-200">
         <div className="max-w-7xl mx-auto px-6 text-center">
             {/* Mission Title */}
-            <h1 className="text-lg lg:text-xl font-semibold uppercase mb-4 text-blue-600 tracking-wider">
-                Our Mission
+            <h1 className="text-lg lg:text-xl font-semibold uppercase mb-2 text-blue-600 tracking-wider">
+                __Our Mission
             </h1>
 
             {/* Mission Subheading */}

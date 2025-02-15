@@ -16,11 +16,11 @@ const FAQs = () => {
     };
 
     return (
-        <section id="faqs" className="py-6 bg-white px-2 font-inter">
+        <section id="faqs" className=" bg-white px-2 font-inter">
             {/* Header Section */}
-            <div className="text-center mb-10">
-                <h1 className="text-lg lg:text-xl font-semibold uppercase mb-4 text-blue-600">
-                    FAQs
+            <div className="text-center mb-6">
+                <h1 className="text-lg lg:text-xl font-semibold uppercase mb-4 text-[#27569E]">
+                    __FAQs
                 </h1>
                 <h2 className="text-2xl lg:text-3xl xl:text-4xl font-semibold max-w-sm lg:max-w-md xl:max-w-xl mx-auto text-gray-900">
                     Explore Our FAQ Section for Helpful Information
@@ -43,7 +43,7 @@ const FAQs = () => {
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden"
+                            className="bg-white border border-[#27569E] shadow-sm overflow-hidden"
                         >
                             <button
                                 className="flex justify-between items-center w-full px-4 py-3 text-left text-gray-800 font-semibold text-lg focus:outline-none hover:bg-blue-100 transition-all"
@@ -71,7 +71,7 @@ const FAQs = () => {
                             {activeIndex === index && (
                                 <div
                                     id={`faq-${index}`}
-                                    className="px-4 py-3 text-gray-600 bg-blue-50"
+                                    className="px-4 py-3 text-gray-600 "
                                 >
                                     {faq.answer}
                                 </div>

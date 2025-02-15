@@ -216,40 +216,52 @@ const QuizManagement = () => {
       {/* Popup Modal */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white shadow-2xl w-full max-w-lg border-4 border-blue-500 ">
+          <div className="bg-white shadow-2xl w-full max-w-lg border-4 border-blue-500">
 
             {/* Header */}
-            <div className="bg-blue-500 text-white text-center py-4 shadow-md">
-              <h2 className="text-2xl font-bold tracking-wide">
+            <div className="bg-blue-500 text-white text-center py-3 shadow-md">
+              <h2 className="text-xl font-bold tracking-wide">
                 {isEditing ? "Edit Quiz" : "Create Quiz"}
               </h2>
             </div>
 
             {/* Form Fields */}
-            <div className="grid gap-4 mt-6 p-6">
-              {["courseName", "courseCode", "creditHours", "quizNo", "totalMarks"].map((field, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  name={field}
-                  value={quizForm[field]}
-                  onChange={handleInputChange}
-                  placeholder={field.replace(/([A-Z])/g, " $1").trim()}
-                  className="p-3 border border-blue-400  focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
-                />
+            <div className="grid gap-3 mt-4 px-4 py-2">
+              {[
+                { name: "courseName", label: "Course Name" },
+                { name: "courseCode", label: "Course Code" },
+                { name: "creditHours", label: "Credit Hours" },
+                { name: "quizNo", label: "Quiz No" },
+                { name: "totalMarks", label: "Total Marks" },
+              ].map(({ name, label }, index) => (
+                <div key={index} className="flex flex-col">
+                  <label htmlFor={name} className="text-gray-700 font-medium mb-1">
+                    {label}
+                  </label>
+                  <input
+                    id={name}
+                    type="text"
+                    name={name}
+                    value={quizForm[name]}
+                    onChange={handleInputChange}
+                    placeholder={label}
+                    className="p-2 border border-blue-400 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
+                  />
+                </div>
               ))}
             </div>
+
             {/* Buttons */}
-            <div className="flex justify-end gap-4 pb-6 px-6">
+            <div className="flex justify-end gap-3 py-3 px-4">
               <button
                 onClick={closePopup}
-                className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-6 py-2  transition duration-300"
+                className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-4 py-2 transition duration-300"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveQuiz}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2  shadow-lg transform transition duration-300 hover:scale-105"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 shadow-lg transform transition duration-300 hover:scale-105"
               >
                 {isEditing ? "Update Quiz" : "Save Quiz"}
               </button>

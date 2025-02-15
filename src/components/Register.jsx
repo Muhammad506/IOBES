@@ -7,7 +7,7 @@ const Register = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     return (
-        <main className="flex flex-col lg:flex-row font-inter bg-gradient-to-b from-[#0066CC] to-[#6699FF] ">
+        <main className="flex flex-col lg:flex-row font-inter bg-gradient-to-tr from-[#27569E] to-[#4A90E2]">
             {/* Back Button */}
             <Link to="/">
                 <div className="absolute top-6 left-6 flex z-50 items-center gap-2 text-[#003C60] font-bold text-lg bg-white px-4 py-2 rounded-full shadow-md hover:bg-[#003C60] hover:text-white transition-all duration-500 ease-in-out cursor-pointer">

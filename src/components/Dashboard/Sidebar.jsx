@@ -43,7 +43,7 @@ const Sidebar = () => {
 
     return (
         <>
-            {/* Sidebar for Medium and Larger Devices */}
+            {/* Sidebar for  Larger Devices */}
             <div className="hidden lg:block h-screen  lg:w-[25%] xl:w-[18%] p-4 fixed bg-gradient-to-b from-[#0066CC] to-[#6699FF] shadow-lg">
                 <div className="flex items-center justify-center h-20 mb-6">
                     <NavLink to="/">
@@ -55,7 +55,7 @@ const Sidebar = () => {
                 </nav>
             </div>
 
-            {/* Navbar for Small Devices */}
+            {/* Navbar for Small & medium Devices */}
             <div className="lg:hidden">
                 <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-[#0066CC] to-[#6699FF] shadow-lg">
                     <h1 className="text-xl font-extrabold tracking-wide text-white">LOGO</h1>

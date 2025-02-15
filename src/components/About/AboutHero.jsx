@@ -15,18 +15,6 @@ const AboutHero = () => (
         Discover the AI-Powered Outcome-Based Examination System by the University Institute of Information Technology,
         PMAS-Arid Agriculture University, Rawalpindi.
       </p>
-      <button
-        className="relative px-6 py-3 bg-white border-2 border-blue-600 text-blue-600 font-semibold  rounded-full overflow-hidden shadow-md transition-all duration-700 ease-in-out hover:shadow-lg hover:text-white group"
-      >
-        <span
-          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-in-out origin-center"
-        ></span>
-        <span
-          className="relative z-10 group-hover:text-white"
-        >
-          Learn More!
-        </span>
-      </button>
     </div>
   </header>
 );

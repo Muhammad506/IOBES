@@ -6,13 +6,17 @@ const Footer = () => {
   const location = useLocation();
 
   return (
-    <footer className="bg-gradient-to-tr from-[#0066CC] to-[#6699FF] text-white py-12 font-inter">
+    <footer className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] text-white py-10 font-inter">
       <div className="container mx-auto px-6 text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
         {/* Grid 1: Logo and Website Details */}
         <div className="flex flex-col items-center">
-          <span className="text-center font-extrabold text-4xl mb-4">
-            LOGO
-          </span>
+          {/* Logo */}
+          <Link to="/" className="flex flex-col items-center gap-2 mb-2">
+            <img src="Logo.jpg" alt="logo" className="size-14 sm:size-16" />
+            {/* <p className="text-xl lg:text-2xl font-bold text-[#27569E] tracking-wide">
+              OBE SYSTEM
+            </p> */}
+          </Link>
           <p className="text-sm text-white font-medium  px-8 mb-4">
             An AI-driven examination system ensuring fair, efficient, and data-driven assessments to enhance learning outcomes.
           </p>
@@ -91,7 +95,7 @@ const Footer = () => {
       <hr className="border-t border-gray-200 my-8 w-3/4 mx-auto" />
 
       {/* Copyright Section */}
-      <div className="text-center text-sm text-blue-950 font-semibold mt-8">
+      <div className="text-center text-sm text-gray-100 font-medium mt-8">
         <p>&copy; {new Date().getFullYear()} FYP Portal. All rights reserved.</p>
       </div>
     </footer>
