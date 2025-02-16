@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 
-
 const CoarseManagement = () => {
     const [courses, setCourses] = useState([]);
     const [filteredCourses, setFilteredCourses] = useState([]);
@@ -24,7 +23,9 @@ const CoarseManagement = () => {
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("courses", JSON.stringify(courses));
+        if (courses.length) {
+            localStorage.setItem("courses", JSON.stringify(courses));
+        }
         filterCourses(searchQuery);
     }, [courses]);
 
@@ -92,11 +93,10 @@ const CoarseManagement = () => {
         }
 
         if (isEditing) {
-            setCourses(
-                courses.map((course) =>
-                    course.id === editId ? { ...course, ...courseForm } : course
-                )
+            const updatedCourses = courses.map((course) =>
+                course.id === editId ? { ...course, ...courseForm } : course
             );
+            setCourses(updatedCourses);
         } else {
             const newCourse = { ...courseForm, id: Date.now() };
             setCourses([...courses, newCourse]);
@@ -108,12 +108,13 @@ const CoarseManagement = () => {
     const handleDeleteCourse = (id) => {
         const updatedCourses = courses.filter((course) => course.id !== id);
         setCourses(updatedCourses);
+        localStorage.setItem("courses", JSON.stringify(updatedCourses));
     };
 
     return (
-        <div className="min-h-screen ">
+        <div className="min-h-screen  font-inter">
             {/* Header */}
-            <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
+            <header className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
                 <h1 className="text-2xl font-semibold">Course Management</h1>
                 <div className="flex items-center space-x-4">
 
@@ -131,7 +132,7 @@ const CoarseManagement = () => {
                     {/* button  */}
                     <button
                         onClick={() => openPopup()}
-                        className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-300"
+                        className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] hover:bg-gradient-to-tr hover:to-[#27569E] hover:from-[#4A90E2] text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-300"
                     >
                         Create Course
                     </button>
@@ -141,8 +142,10 @@ const CoarseManagement = () => {
             {/* Course Table */}
             <div className="overflow-x-auto shadow-lg rounded-sm border border-blue-300 mt-6">
                 <table className="min-w-full bg-white text-center">
+
+                    {/* table header  */}
                     <thead>
-                        <tr className="bg-blue-100 text-blue-700">
+                        <tr className="bg-blue-100 text-[#27569E]">
                             <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Course Name</th>
                             <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 ">Course Code</th>
                             <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Teacher</th>
@@ -151,10 +154,12 @@ const CoarseManagement = () => {
                             <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">Actions</th>
                         </tr>
                     </thead>
+
+                    {/* table Data  */}
                     <tbody>
                         {filteredCourses.length > 0 ? (
                             filteredCourses.map((course) => (
-                                <tr key={course.id} className="hover:bg-blue-50 border border-blue-300 transition-all">
+                                <tr key={course.id} className="hover:bg-blue-50  border border-blue-300 transition-all">
                                     <td className="py-2 px-6 border-r-2 border-blue-300">{course.name}</td>
                                     <td className="py-2 px-6 border-x-2 border-blue-300">{course.code}</td>
                                     <td className="py-2 px-6 border-x-2 border-blue-300 ">{course.teacher}</td>
@@ -174,7 +179,7 @@ const CoarseManagement = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="6" className="py-8 px-6 text-gray-500">
+                                <td colSpan="6" className="py-8 px-6 text-[#27569E]">
                                     No courses available.
                                 </td>
                             </tr>
@@ -185,11 +190,11 @@ const CoarseManagement = () => {
 
             {/* Popup Modal */}
             {isPopupOpen && (
-                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white w-full max-w-xl shadow-md border-4 border-blue-500"> {/* Added border to popup */}
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 font-inter">
+                    <div className="bg-white w-full max-w-xl shadow-md border-4 border-[#27569E]">
 
                         {/* Header  */}
-                        <div className="px-4 py-3 bg-blue-500 text-white text-center">
+                        <div className="px-4 py-3 bg-[#27569E] text-white text-center">
                             <h2 className="text-2xl font-bold">
                                 {isEditing ? "Edit Course" : "Create Course"}
                             </h2>
@@ -213,7 +218,7 @@ const CoarseManagement = () => {
                                             value={value}
                                             onChange={handleInputChange}
                                             placeholder={placeholder}
-                                            className="p-2 border border-gray-400 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
+                                            className="p-2 border border-gray-400 focus:ring-2 focus:ring-[#27569E] outline-none shadow-sm transition duration-300 w-full"
                                         />
                                     </div>
                                 ))}
@@ -230,7 +235,7 @@ const CoarseManagement = () => {
                             </button>
                             <button
                                 onClick={handleSaveCourse}
-                                className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
+                                className="bg-[#27569E] text-white px-4 py-2 hover:bg-blue-900 transition"
                             >
                                 {isEditing ? "Update Course" : "Save Course"}
                             </button>

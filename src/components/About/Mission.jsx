@@ -12,7 +12,7 @@ const Mission = () => (
             </h2>
 
             {/* Mission Description */}
-            <p className="mt-6 text-lg md:text-xl text-gray-700 leading-relaxed mx-auto max-w-4xl">
+            <p className="mt-6 text-lg md:text-xl text-gray-700 leading-relaxed mx-auto max-w-5xl">
                 Our mission is to transform educational assessments using cutting-edge AI technology. We aim to enhance academic
                 integrity and align examinations with Course Learning Outcomes (CLOs).
             </p>

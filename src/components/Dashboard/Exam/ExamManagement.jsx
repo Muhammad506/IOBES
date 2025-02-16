@@ -148,7 +148,7 @@ const ExamManagement = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="bg-blue-600 text-white py-4 px-6 shadow-md flex flex-col md:flex-row justify-between items-center">
+      <header className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] font-inter text-white py-4 px-6 shadow-md flex flex-col md:flex-row justify-between items-center">
         <h1 className="text-2xl font-bold mb-4 md:mb-0">Exam Management</h1>
         <div className="flex items-center gap-4 w-full md:w-auto">
 
@@ -158,7 +158,7 @@ const ExamManagement = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="p-2 pl-10 border border-gray-300 w-full text-black focus:outline-none focus:border-blue-500"
+              className="p-2 pl-10 border border-gray-300 w-full text-black focus:outline-none focus:border-[#27569E]"
               placeholder="Search Exams..."
             />
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
@@ -167,7 +167,7 @@ const ExamManagement = () => {
           {/* button  */}
           <button
             onClick={() => setShowModal(true)}
-            className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-500"
+            className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] hover:bg-gradient-to-tr hover:to-[#27569E] hover:from-[#4A90E2] text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-300"
           >
             Create Exam
           </button>
@@ -178,7 +178,7 @@ const ExamManagement = () => {
       <div className="mt-6 overflow-x-auto bg-white shadow-md">
         <table className="w-full border-blue-300 border ">
           <thead>
-            <tr className=" bg-blue-100 text-blue-700">
+            <tr className=" bg-blue-100 text-[#27569E]">
               <th className="py-2 px-6 font-medium border border-blue-300 border-b-2   border-r-2">
                 Course Name
               </th>
@@ -256,13 +256,13 @@ const ExamManagement = () => {
         </table>
       </div>
 
-      {/* Modal for Create/Edit Exam */}
+      {/*Popup Modal for Create/Edit Exam */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white w-full max-w-lg shadow-md border-4 border-blue-500"> {/* Added border to the popup */}
+          <div className="bg-white w-full max-w-lg shadow-md border-4 border-[#27569E]"> 
 
             {/* Header with Background */}
-            <div className="px-4 py-3 bg-blue-500 text-white">
+            <div className="px-4 py-3 bg-[#27569E] text-white">
               <h2 className="text-2xl font-bold flex justify-center">
                 {editId ? "Edit Exam" : "Create Exam"}
               </h2>
@@ -288,7 +288,7 @@ const ExamManagement = () => {
                       value={value}
                       onChange={(e) => setter(e.target.value)}
                       placeholder={label}
-                      className="p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
+                      className="p-2 border border-gray-300 focus:ring-2 focus:ring-[#27569E] outline-none shadow-sm transition duration-300 w-full"
                     />
                   </div>
                 ))}
@@ -308,7 +308,7 @@ const ExamManagement = () => {
               </button>
               <button
                 onClick={editId ? handleUpdateExam : handleAddExam}
-                className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition"
+                className="bg-[#27569E] text-white px-4 py-2 hover:bg-blue-900 transition"
               >
                 {editId ? "Update" : "Create"}
               </button>

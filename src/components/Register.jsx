@@ -28,12 +28,17 @@ const Register = () => {
             {/* Right Section - Form */}
             <div className="w-full lg:w-[40%] flex flex-col justify-center items-center px-8">
                 <div className="max-w-md w-full bg-white shadow-xl border-4 border-[#003C60] rounded-3xl p-8 animate-slideInLeft">
+                    {/* Logo  */}
                     <div className="text-center mb-4">
-                        <span className="flex justify-center items-center text-4xl font-extrabold text-[#003C60] mb-4">LOGO</span>
+                        <Link to="/" className="flex flex-col items-center gap-2 mb-2">
+                            <img src="Logo.jpg" alt="logo" className="size-14 sm:size-16" />
+                        </Link>
                         <p className="text-gray-600 text-lg mb-4">
                             Create your AI-Powered Outcome Based Examination System account to get started.
                         </p>
                     </div>
+
+                    {/* form  */}
                     <form className="space-y-3">
                         <div>
                             <label className="block text-[#003C60] font-semibold mb-1">
@@ -95,7 +100,7 @@ const Register = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-700 text-white text-lg font-semibold py-3  shadow-lg hover:bg-[#2F5ECC] transition-all duration-300 transform "
+                            className="w-full bg-[#27569E] text-white text-lg font-semibold py-3  shadow-lg hover:bg-[#2F5ECC] transition-all duration-300 transform "
                         >
                             Register
                         </button>

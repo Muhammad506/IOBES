@@ -11,43 +11,44 @@ const Footer = () => {
         {/* Grid 1: Logo and Website Details */}
         <div className="flex flex-col items-center">
           {/* Logo */}
-          <Link to="/" className="flex flex-col items-center gap-2 mb-2">
-            <img src="Logo.jpg" alt="logo" className="size-14 sm:size-16" />
-            {/* <p className="text-xl lg:text-2xl font-bold text-[#27569E] tracking-wide">
+          <Link to="/" className="flex flex-col items-center ">
+            <img src="Logo1.png" alt="logo" className="size-14 sm:size-16" />
+            <p className="text-xl lg:text-3xl font-extrabold font-inter text-white  tracking-wide">
               OBE SYSTEM
-            </p> */}
+            </p>
           </Link>
-          <p className="text-sm text-white font-medium  px-8 mb-4">
+          <p className="text-sm text-white font-medium  px-8 my-4">
             An AI-driven examination system ensuring fair, efficient, and data-driven assessments to enhance learning outcomes.
           </p>
         </div>
 
         {/* Grid 2: Links Section */}
         <div className="flex flex-col items-center space-y-4">
-          <h2 className="font-bold text-xl">Links</h2>
+          <h2 className="font-bold text-xl text-yellow-400">Links</h2>
           <Link
             to="/"
-            className={` font-semibold transition text-white duration-300 ${location.pathname === "/" ? "text-gray-900 underline" : "hover:text-gray-900"}`}
+            className={` font-medium transition text-white duration-300 ${location.pathname === "/" ? "text-yellow-400 underline" : "hover:text-yellow-400"}`}
           >
             Home
           </Link>
           <Link
             to="/about"
-            className={` font-semibold text-white transition duration-300 ${location.pathname === "/about" ? "text-gray-900 underline" : "hover:text-gray-900"}`}
+            className={` font-medium text-white transition duration-300 ${location.pathname === "/about" ? "text-yellow-400 underline" : "hover:text-yellow-400"}`}
           >
             About
           </Link>
           <Link
             to="/dashboard"
-            className={` font-semibold text-white transition duration-300 ${location.pathname === "/dashboard" ? "text-gray-900 underline" : "hover:text-gray-900"}`}
+            className={` font-medium text-white transition duration-300 ${location.pathname === "/dashboard" ? "text-yellow-400 underline" : "hover:text-yellow-400"}`}
           >
             Dashboard
           </Link>
+
         </div>
 
         {/* Grid 3: Contact Info Section */}
         <div className="flex flex-col items-center">
-          <p className="text-xl font-bold mb-2">Contact Info</p>
+          <p className="text-xl font-bold mb-2 text-yellow-400">Contact Info</p>
           <p className="text-sm text-white font-medium">Phone: (123) 456-7890</p>
           <p className="text-sm text-white font-medium mb-4">Email: info@fypportal.com</p>
           <div className="flex space-x-6 mt-4 justify-center">
@@ -55,7 +56,7 @@ const Footer = () => {
               href="https://www.facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-950 transition duration-300"
+              className="text-3xl hover:text-yellow-400 transition duration-300"
               aria-label="Facebook"
             >
               <FaFacebook />
@@ -64,7 +65,7 @@ const Footer = () => {
               href="https://www.twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-950 transition duration-300"
+              className="text-3xl hover:text-yellow-400 transition duration-300"
               aria-label="Twitter"
             >
               <FaTwitter />
@@ -73,7 +74,7 @@ const Footer = () => {
               href="https://www.instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-950 transition duration-300"
+              className="text-3xl hover:text-yellow-400 transition duration-300"
               aria-label="Instagram"
             >
               <FaInstagram />
@@ -82,7 +83,7 @@ const Footer = () => {
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-3xl hover:text-blue-950 transition duration-300"
+              className="text-3xl hover:text-yellow-400 transition duration-300"
               aria-label="LinkedIn"
             >
               <FaLinkedin />
@@ -92,7 +93,7 @@ const Footer = () => {
       </div>
 
       {/* Horizontal Line */}
-      <hr className="border-t border-gray-200 my-8 w-3/4 mx-auto" />
+      <hr className="border-t border-gray-400 my-8 w-4/5 mx-auto" />
 
       {/* Copyright Section */}
       <div className="text-center text-sm text-gray-100 font-medium mt-8">

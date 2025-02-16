@@ -111,9 +111,9 @@ const QuizManagement = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-inter">
       {/* Header */}
-      <header className="bg-blue-600 text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
+      <header className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] text-white py-4 px-6 rounded-sm shadow-lg flex justify-between items-center">
         <h1 className="text-2xl font-bold mb-4 md:mb-0">Quiz Management</h1>
         <div className="flex items-center space-x-4">
           <div className="relative">
@@ -128,7 +128,7 @@ const QuizManagement = () => {
           </div>
           <button
             onClick={() => openPopup()}
-            className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-500"
+            className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] hover:bg-gradient-to-tr hover:to-[#27569E] hover:from-[#4A90E2] text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-300"
           >
             Create Quiz
           </button>
@@ -139,7 +139,7 @@ const QuizManagement = () => {
       <div className="overflow-x-auto shadow-lg rounded-sm border border-blue-300 mt-6">
         <table className="min-w-full bg-white text-center">
           <thead>
-            <tr className="bg-blue-100 text-blue-700">
+            <tr className="bg-blue-100 text-[#27569E]">
               <th className="py-2 px-6 font-medium border border-blue-300 border-b-2 border-r-2">
                 Course Name
               </th>
@@ -216,10 +216,10 @@ const QuizManagement = () => {
       {/* Popup Modal */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white shadow-2xl w-full max-w-lg border-4 border-blue-500">
+          <div className="bg-white shadow-2xl w-full max-w-lg border-4 border-[#27569E]">
 
             {/* Header */}
-            <div className="bg-blue-500 text-white text-center py-3 shadow-md">
+            <div className="bg-[#27569E] text-white text-center py-3 shadow-md">
               <h2 className="text-xl font-bold tracking-wide">
                 {isEditing ? "Edit Quiz" : "Create Quiz"}
               </h2>
@@ -245,7 +245,7 @@ const QuizManagement = () => {
                     value={quizForm[name]}
                     onChange={handleInputChange}
                     placeholder={label}
-                    className="p-2 border border-blue-400 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition duration-300 w-full"
+                    className="p-2 border border-[#27569E] focus:ring-2 focus:ring-[#27569E] outline-none shadow-sm transition duration-300 w-full"
                   />
                 </div>
               ))}
@@ -261,7 +261,7 @@ const QuizManagement = () => {
               </button>
               <button
                 onClick={handleSaveQuiz}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 shadow-lg transform transition duration-300 hover:scale-105"
+                className="bg-[#27569E] hover:bg-blue-900 text-white font-medium px-4 py-2 shadow-lg transform transition duration-300 hover:scale-105"
               >
                 {isEditing ? "Update Quiz" : "Save Quiz"}
               </button>

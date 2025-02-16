@@ -207,7 +207,7 @@ const HeroAboutSection = () => {
                         />
                     </div>
 
-                    {/* Right Section (Text) */}
+                    {/* Right Section Content */}
                     <div className="md:w-1/2 mt-8 md:mt-0 space-y-4">
                         <div className="flex flex-col items-start justify-start">
                             <h1 className="text-base lg:text-lg font-semibold uppercase mb-2 text-[#27569E]">

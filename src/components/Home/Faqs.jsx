@@ -6,6 +6,7 @@ const faqs = [
     { question: "Is my data secure?", answer: "Yes, we use encryption and secure storage." },
     { question: "How do I create an account?", answer: "Visit the sign-up page and follow the instructions." },
     { question: "Can I reset my password?", answer: "Yes, you can reset your password using the 'Forgot Password' link." },
+    
 ];
 
 const FAQs = () => {

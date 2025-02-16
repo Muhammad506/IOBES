@@ -7,6 +7,7 @@ import QuizManagement from "./Quiz/QuizManagement";
 import CreateExam from "./Exam/CreateExam";
 import AssignmentManagement from "./Assignment/AssignmentManagement";
 import CoarseManagement from "./Coarse/CoarseManagement";
+import CreateAssignment from "./Assignment/CreateAssignment";
 
 const Dashboard = () => {
   return (
@@ -39,6 +40,10 @@ const Dashboard = () => {
           <Route
             path="assignment-management"
             element={<AssignmentManagement />}
+          />
+          <Route
+            path="assignment-questions/:courseName/:assignmentNo"
+            element={<CreateAssignment />}
           />
         </Routes>
       </div>

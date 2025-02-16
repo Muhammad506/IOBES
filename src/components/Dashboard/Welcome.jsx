@@ -28,7 +28,9 @@ const cardData = [
 const Welcome = () => {
     return (
         <main className="min-h-screen flex flex-col  bg-white">
-            <div className="text-center items-center py-12 flex justify-center flex-col space-y-6 mb-12 bg-gradient-to-br from-[#0066CC] to-[#6699FF] p-8 rounded-sm shadow-lg">
+
+            {/* header  */}
+            <div className="text-center items-center py-12 flex justify-center flex-col space-y-6 mb-12 bg-gradient-to-tr from-[#27569E] to-[#4A90E2] p-8 rounded-sm shadow-lg">
                 <h1 className="text-2xl md:text-3xl justify-center flex items-center xl:w-[85%] lg:text-4xl 2xl:text-6xl font-bold text-white tracking-wider leading-10">
                     Welcome To AI-Powered Outcome Based Examination System
                 </h1>

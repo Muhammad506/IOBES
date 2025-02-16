@@ -13,6 +13,7 @@ const features = [
         title: "CLO-Based Performance Analysis",
         icon: <FaChartLine className="w-12 h-12 text-blue-600" />,
     },
+
     {
         title: "Real-Time Monitoring",
         icon: <FaEye className="w-12 h-12 text-red-600" />,
@@ -115,7 +116,6 @@ const FeaturesAndContact = () => {
                             </button>
                         </form>
                     </div>
-
                     {/* Right Section - Image */}
                     <div className="w-full lg:w-1/2 mt-8 md:-mt-6">
                         <img

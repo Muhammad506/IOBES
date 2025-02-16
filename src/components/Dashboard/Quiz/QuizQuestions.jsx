@@ -63,11 +63,11 @@ const QuizQuestions = () => {
 
   return (
     <div className="min-h-screen font-inter">
-      <header className="bg-blue-600 text-white py-4 px-6 shadow-lg flex justify-between items-center">
+      <header className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] text-white py-4 px-6 shadow-lg flex justify-between items-center">
         <h1 className="text-2xl font-semibold">{courseName} - Quiz {quizNo}</h1>
         <button
           onClick={() => setIsModalVisible(true)}
-          className="bg-blue-700 hover:bg-blue-800 text-white py-2 px-6 shadow-lg border border-white duration-500"
+          className="bg-gradient-to-tr from-[#27569E] to-[#4A90E2] hover:bg-gradient-to-tr hover:to-[#27569E] hover:from-[#4A90E2] text-white py-2 px-6 rounded-sm shadow-lg border border-white duration-300"
         >
           Create Question
         </button>
@@ -76,7 +76,7 @@ const QuizQuestions = () => {
       <div className="overflow-x-auto mt-6 border border-blue-300">
         <table className="table-auto w-full text-sm text-gray-800 bg-white shadow border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-blue-100 text-blue-700 border-b text-center">
+            <tr className="bg-blue-100 text-[#27569E] border-b text-center">
               <th className="px-4 py-2 border border-blue-400 w-1/2">Question Text</th>
               <th className="px-4 py-2 border border-blue-400 w-1/6">Question Type</th>
               <th className="px-4 py-2 border border-blue-400 w-1/6">CLO Type</th>
@@ -115,13 +115,13 @@ const QuizQuestions = () => {
         </table>
       </div>
 
-      {/* Modal */}
+      {/* popup Modal */}
       {isModalVisible && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="relative bg-white shadow-xl w-[90%] md:w-[60%] lg:w-[50%] xl:w-[40%] border-4 border-blue-500 ">
+          <div className="relative bg-white shadow-xl w-[90%] md:w-[60%] lg:w-[50%] xl:w-[40%] border-4 border-[#27569E] ">
 
             {/* Modal Header */}
-            <div className="bg-blue-500 text-white p-4 text-center ">
+            <div className="bg-[#27569E] text-white p-4 text-center ">
               <h2 className="text-2xl font-semibold">
                 {editingIndex !== null ? "Edit Question" : "Create Question"}
               </h2>
@@ -136,7 +136,7 @@ const QuizQuestions = () => {
                   value={questionText}
                   onChange={(e) => setQuestionText(e.target.value)}
                   placeholder="Enter the question text"
-                  className="p-3 text-sm w-full border border-gray-300  focus:ring-2 focus:ring-blue-400 outline-none resize-none"
+                  className="p-3 text-sm w-full border border-[#27569E]  focus:ring-2 focus:ring-[#27569E] outline-none resize-none"
                 ></textarea>
               </div>
 
@@ -146,7 +146,7 @@ const QuizQuestions = () => {
                 <select
                   value={questionType}
                   onChange={(e) => setQuestionType(e.target.value)}
-                  className="border border-gray-300 px-4 py-2 w-full  focus:ring-2 focus:ring-blue-400 outline-none"
+                  className="border border-[#27569E] px-4 py-2 w-full  focus:ring-2 focus:ring-[#27569E] outline-none"
                 >
                   <option value="" disabled>Select Question Type</option>
                   <option value="Objective">Objective</option>
@@ -160,7 +160,7 @@ const QuizQuestions = () => {
                 <select
                   value={cloType}
                   onChange={(e) => setCloType(e.target.value)}
-                  className="border border-gray-300 px-4 py-2 w-full  focus:ring-2 focus:ring-blue-400 outline-none"
+                  className="border border-[#27569E] px-4 py-2 w-full  focus:ring-2 focus:ring-[#27569E] outline-none"
                 >
                   <option value="1">CLO 1</option>
                   <option value="2">CLO 2</option>
@@ -181,7 +181,7 @@ const QuizQuestions = () => {
                 </button>
                 <button
                   onClick={handleSaveQuestion}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2  transition-all"
+                  className="bg-[#27569E] hover:bg-blue-900 text-white px-6 py-2  transition-all"
                 >
                   {editingIndex !== null ? "Update Question" : "Save Question"}
                 </button>

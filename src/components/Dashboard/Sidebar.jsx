@@ -32,7 +32,7 @@ const Sidebar = () => {
                     to={link.to}
                     end
                     className={({ isActive }) =>
-                        `flex items-center gap-3 p-2 hover:bg-[#4C8CFF] transition-all duration-300 ${isActive ? "bg-[#4C8CFF] shadow-md" : "hover:bg-opacity-70"}`
+                        `flex items-center gap-3 p-2 hover:bg-[#27569E] transition-all duration-300 ${isActive ? "bg-[#27569E] shadow-md" : "hover:bg-opacity-70"}`
                     }
                 >
                     {link.icon}
@@ -44,10 +44,14 @@ const Sidebar = () => {
     return (
         <>
             {/* Sidebar for  Larger Devices */}
-            <div className="hidden lg:block h-screen  lg:w-[25%] xl:w-[18%] p-4 fixed bg-gradient-to-b from-[#0066CC] to-[#6699FF] shadow-lg">
-                <div className="flex items-center justify-center h-20 mb-6">
-                    <NavLink to="/">
-                        <h1 className="text-2xl font-extrabold tracking-wide text-white">LOGO</h1>
+            <div className="hidden lg:block h-screen  lg:w-[25%] xl:w-[18%] p-4 py-8 fixed bg-gradient-to-tr from-[#27569E] to-[#4A90E2] shadow-lg">
+                <div className="flex items-center justify-center h-20 mb-10 ">
+                    {/* logo  */}
+                    <NavLink to="/" className="flex flex-col items-center ">
+                        <img src="Logo1.png" alt="logo" className="size-14 sm:size-16" />
+                        <p className="text-xl lg:text-3xl font-extrabold font-inter text-yellow-400  tracking-wide pb-4 border-b">
+                            OBE SYSTEM
+                        </p>
                     </NavLink>
                 </div>
                 <nav className="flex-1 overflow-y-auto">
@@ -57,7 +61,7 @@ const Sidebar = () => {
 
             {/* Navbar for Small & medium Devices */}
             <div className="lg:hidden">
-                <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-r from-[#0066CC] to-[#6699FF] shadow-lg">
+                <div className="flex items-center justify-between h-16 px-4 bg-gradient-to-tr from-[#27569E] to-[#4A90E2] shadow-lg">
                     <h1 className="text-xl font-extrabold tracking-wide text-white">LOGO</h1>
                     <button className="text-2xl text-white" onClick={toggleNavbar}>
                         {isNavbarOpen ? <FaTimes /> : <FaBars />}
@@ -66,7 +70,7 @@ const Sidebar = () => {
 
                 {/* Mobile Sidebar - Fullscreen when open */}
                 {isNavbarOpen && (
-                    <nav className="fixed inset-0 bg-gradient-to-r from-[#0066CC] to-[#6699FF] shadow-lg z-50 h-screen">
+                    <nav className="fixed inset-0 bg-gradient-to-tr from-[#27569E] to-[#4A90E2] shadow-lg z-50 h-screen">
                         <ul className="space-y-2 p-3">{renderLinks()}</ul>
                     </nav>
                 )}

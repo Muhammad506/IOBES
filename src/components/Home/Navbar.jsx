@@ -8,17 +8,17 @@ const Navbar = () => {
 
     const isActive = (path) =>
         location.pathname === path
-            ? "text-[#27569E] font-semibold underline"
+            ? "text-[#293C58] font-semibold underline"
             : "text-gray-700 hover:text-[#27569E] transition duration-300";
 
     return (
-        <nav className="fixed top-0 z-50 w-full bg-gray-50 border-gray-300 shadow-md border-b">
+        <nav className="fixed top-0 z-50 w-full bg-gray-50 border-gray-300 font-inter shadow-md border-b">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
-                <div className="flex justify-between items-center py-1">
+                <div className="flex justify-between items-center">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center gap-2">
-                        <img src="Logo.png" alt="logo" className="size-14 sm:size-16" />
-                        <p className="text-xl lg:text-2xl font-bold text-[#27569E] tracking-wide">
+                    <Link to="/" className="flex items-center gap-3">
+                        <img src="Logo1.png" alt="logo" className="size-14 sm:size-16" />
+                        <p className="text-xl lg:text-3xl font-extrabold font-inter text-[#293C58]  tracking-wide">
                             OBE SYSTEM
                         </p>
                     </Link>

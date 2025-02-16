@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import PropTypes from "prop-types"; // Import PropTypes for prop validation
 import "@fontsource/inter";
+import "@fontsource/roboto-mono";
 import Navbar from "./components/Home/Navbar";
 import Footer from "./components/Home/Footer";
 import FAQs from "./components/Home/Faqs";
@@ -10,12 +11,12 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import AboutPage from "./components/About/AboutPage";
-import ScrollToTop from "./components/ScrollToTop"; // Import the ScrollToTop component
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
     <Router>
-      <ScrollToTop /> {/* Add this here to enable scrolling to top */}
+      <ScrollToTop />
       <ConditionalLayout>
         <Routes>
           <Route
@@ -31,7 +32,7 @@ const App = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard/*" element={<Dashboard />} /> {/* Nested routes for dashboard */}
+          <Route path="/dashboard/*" element={<Dashboard />} />
         </Routes>
       </ConditionalLayout>
     </Router>
@@ -59,7 +60,7 @@ const ConditionalLayout = ({ children }) => {
 
 // PropTypes validation for ConditionalLayout
 ConditionalLayout.propTypes = {
-  children: PropTypes.node.isRequired, // Ensure children prop is provided and valid
+  children: PropTypes.node.isRequired,
 };
 
 export default App;
