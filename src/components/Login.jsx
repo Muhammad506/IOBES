@@ -29,11 +29,14 @@ const Login = () => {
                 <div className="max-w-md w-full bg-white shadow-xl border-4 border-[#003C60] rounded-3xl p-10 animate-slideInLeft">
                     <div className="text-center mb-6">
                         {/* Logo Placeholder */}
-                        <Link to="/" className="flex flex-col items-center gap-2 mb-2">
-                            <img src="Logo.jpg" alt="logo" className="size-14 sm:size-16" />
+                        <Link to="/" className="flex flex-col items-center ">
+                            <img src="Logo1.png" alt="logo" className="size-14 sm:size-16" />
+                            <p className="text-xl lg:text-3xl font-extrabold font-inter text-[#293C58]  tracking-wide">
+                                OBE SYSTEM
+                            </p>
                         </Link>
-                        <p className="text-gray-600 text-lg mb-6">
-                            Log in to your AI-Powered Outcome Based Examination System account to access your dashboard.
+                        <p className="text-gray-600 text-lg mb-6 ">
+                            Log in to AI-Powered Outcome Based Examination System.
                         </p>
                     </div>
                     <form className="mt-4 space-y-4">
